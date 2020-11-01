@@ -49,7 +49,7 @@ workflows:
       - orb-tools/pack # Pack orb source
       - shellcheck/check:
           dir: ./src/scripts
-          exclude: SC2148
+          exclude: SC2148,SC2086
       # optional: Run BATS tests against your scripts
       - bats/run:
           name: linux-tests
