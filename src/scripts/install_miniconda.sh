@@ -16,7 +16,7 @@ install_miniconda() {
     bash "$MINICONDA_FILE" -bp "${INSTALL_TO}"
     rm "${MINICONDA_FILE}"
 
-    # add to conda init
+    # add conda init
     eval "$("${INSTALL_TO}"/bin/conda shell.bash hook)"
     conda init
 }

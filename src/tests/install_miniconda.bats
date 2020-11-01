@@ -6,8 +6,9 @@ setup() {
 
 @test '1: install miniconda' {
     # Mock environment variables or functions by exporting them (after the script has been sourced)
-    export INSTALL_TO=~/miniconda3
+    export INSTALL_TO=${BATS_TMPDIR}/miniconda-test
 
     install_miniconda
-    [ $(which conda) == $HOME/miniconda3/envs/work/bin/conda ]
+    eval "$("${INSTALL_TO}"/bin/conda shell.bash hook)"
+    [ $(which conda) == ${BATS_TMPDIR}/miniconda-test/bin/conda ]
 }
