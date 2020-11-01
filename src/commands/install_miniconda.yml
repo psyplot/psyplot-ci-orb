@@ -1,12 +1,12 @@
 description: "Setup linux environment and install miniconda"
 parameters:
-  install_location:
+  condadir:
     description: "Install location for anaconda"
     type: string
     default: "~/miniconda3"
 steps:
   - run:
       environment:
-        INSTALL_TO: <<parameters.install_location>>
+        CONDADIR: <<parameters.condadir>>
       name: Install conda
       command: <<include(scripts/install_miniconda.sh)>>
