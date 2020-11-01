@@ -21,11 +21,5 @@ setup() {
     export PYTHON_VERSION=3.8
     conda_build
 
-    case "$(uname -s)" in
-        Linux*)     BUILDDIR="${CONDADIR}/conda-bld/linux-64";;
-        Darwin*)    BUILDDIR="${CONDADIR}/conda-bld/osx-64";;
-        *)          skip "Not on Linux or osx, so skipping";;
-    esac
-
-    [ -f "${BUILDDIR}/docrep*.tar.bz2" ]
+    [ -f "${CONDADIR}/conda-bld/noarch/docrep*.tar.bz2" ]
 }
