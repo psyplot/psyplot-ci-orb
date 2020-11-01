@@ -7,6 +7,11 @@ orbs:
   bats: circleci/bats@1.0
   shellcheck: circleci/shellcheck@2.0
 
+executors:
+  macos-executor:
+    macos:
+      xcode: 12.2.0
+
 # Pipeline Parameters
 ## These parameters are used internally by orb-tools. Skip to the Jobs section.
 parameters:
@@ -37,6 +42,13 @@ jobs:
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
   # This workflow will run on every commit
+  osx-test-pack:
+    unless: << pipeline.parameters.run-integration-tests >>
+    jobs:
+      # optional: Run BATS tests against your scripts
+      - bats/run:
+          path: ./src/tests
+          exec_environment: macos-executor
   test-pack:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
