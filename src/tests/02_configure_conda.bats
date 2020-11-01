@@ -25,3 +25,7 @@ setup() {
     [ "$(cat ~/.condarc | grep mainchannel/label/defaultbranch)" != "" ]
     [ "$(conda list | grep conda-build)" != "" ]
 }
+
+teardown() {
+    rm ~/.condarc
+}
