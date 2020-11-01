@@ -1,9 +1,10 @@
 configure_conda() {
-    which conda || source "${CONDADIR}"/bin/activate base
+    which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
+
     conda config --set always_yes yes --set changeps1 no
     conda update -q conda
-    for CHANNEL in ${CHANNELS}; do
-        conda config --add channels "${CHANNEL}"
+    for CHN in ${CHANNELS}; do
+        conda config --add channels "${CHN}"
     done
     if [[ "${MAINCHANNEL}" != "" ]]; then
         conda config --add channels "${MAINCHANNEL}"
