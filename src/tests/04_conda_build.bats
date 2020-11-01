@@ -9,7 +9,7 @@ setup() {
     source ./src/scripts/configure_conda.sh
     PACKAGES=conda-build configure_conda
 
-    git clone https://github.com/conda-forge/psyplot-feedstock.git ${BATS_TMPDIR}/psyplot-feedstock
+    git clone https://github.com/conda-forge/docrep-feedstock.git ${BATS_TMPDIR}/test-feedstock
 
     source ./src/scripts/conda_build.sh
 }
@@ -17,7 +17,7 @@ setup() {
 @test '1: build conda recipe' {
     # Mock environment variables or functions by exporting them (after the script has been sourced)
     export CONDADIR=${BATS_TMPDIR}/miniconda-test
-    export RECIPEDIR=${BATS_TMPDIR}/psyplot-feedstock/recipe
+    export RECIPEDIR=${BATS_TMPDIR}/test-feedstock/recipe
     export PYTHON_VERSION=3.8
     conda_build
 
@@ -27,5 +27,5 @@ setup() {
         *)          skip "Not on Linux or osx, so skipping";;
     esac
 
-    [ -f "${BUILDDIR}/psyplot*.tar.bz2" ]
+    [ -f "${BUILDDIR}/docrep*.tar.bz2" ]
 }
