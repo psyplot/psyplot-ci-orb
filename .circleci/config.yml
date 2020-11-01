@@ -42,13 +42,6 @@ jobs:
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
   # This workflow will run on every commit
-  osx-test-pack:
-    unless: << pipeline.parameters.run-integration-tests >>
-    jobs:
-      # optional: Run BATS tests against your scripts
-      - bats/run:
-          path: ./src/tests
-          exec_environment: macos-executor
   test-pack:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
@@ -59,7 +52,12 @@ workflows:
           exclude: SC2148
       # optional: Run BATS tests against your scripts
       - bats/run:
+          name: linux-tests
           path: ./src/tests
+      - bats/run:
+          name: macos-tests
+          path: ./src/tests
+          exec_environment: macos-executor
       # If you accept building open source forks, protect your secrects behind a restricted context.
       # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
       # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
@@ -68,7 +66,8 @@ workflows:
           requires:
             - orb-tools/lint
             - orb-tools/pack
-            - bats/run
+            - linux-tests
+            - macos-tests
             - shellcheck/check
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
