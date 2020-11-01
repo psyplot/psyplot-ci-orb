@@ -3,7 +3,10 @@ setup() {
     # Load our script file.
     export CONDADIR=${BATS_TMPDIR}/miniconda-test
     source ./src/scripts/install_miniconda.sh
-    install_miniconda
+    if [ ! -d "${CONDADIR}" ]; then
+        install_miniconda
+    fi
+    source ./src/scripts/configure_conda.sh
 }
 
 @test '1: install miniconda' {
