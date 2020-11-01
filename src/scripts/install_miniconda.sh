@@ -1,4 +1,4 @@
-install_conda() {
+install_miniconda() {
     echo ""
     echo "Installing a fresh version of Miniconda."
     MINICONDA_URL="https://repo.anaconda.com/miniconda"
