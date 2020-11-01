@@ -15,6 +15,8 @@ configure_conda() {
     if [[ "${CIRCLE_TAG}" == "" ]]; then
         conda config --add channels psyplot/label/"${CIRCLE_BRANCH}"
     fi
+
+    conda install -c defaults --override-channels ${PACKAGES}
 }
 
 # Will not run if sourced for bats-core tests.

@@ -1,7 +1,7 @@
 description: "Configure miniconda"
 parameters:
   condadir:
-    description: "Install location for anaconda"
+    description: Install location for anaconda
     type: string
     default: "~/miniconda3"
   main_channel:
@@ -16,6 +16,10 @@ parameters:
     description: Further default channels for conda
     type: string
     default: conda-forge
+  packages:
+    description: Extra packages to install into the base environment
+    type: string
+    default: conda-build anaconda-client conda-verify
 steps:
   - run:
       environment:
@@ -23,5 +27,6 @@ steps:
         MAINCHANNEL: <<parameters.main_channel>>
         DEFAULTBRANCH: <<parameters.default_branch>>
         CHANNELS: <<parameters.channels>>
+        PACKAGES: <<parameters.packages>>
       name: Configure conda
       command: <<include(scripts/configure_conda.sh)>>

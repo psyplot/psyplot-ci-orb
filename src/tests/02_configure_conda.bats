@@ -15,6 +15,7 @@ setup() {
     export CHANNELS="some channel"
     export MAINCHANNEL=mainchannel
     export DEFAULTBRANCH=defaultbranch
+    export PACKAGES=conda-build
     configure_conda
 
     eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
@@ -22,4 +23,5 @@ setup() {
     [ "$(cat ~/.condarc | grep channel)" != "" ] && \
     [ "$(cat ~/.condarc | grep mainchannel)" != "" ] && \
     [ "$(cat ~/.condarc | grep mainchannel/label/defaultbranch)" != "" ]
+    [ "$(conda list | grep conda-build)" != "" ]
 }
