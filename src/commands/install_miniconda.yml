@@ -8,6 +8,5 @@ steps:
   - run:
       environment:
         INSTALL_TO: <<parameters.install_location>>
-        OPENGL: <<# parameters.opengl >>1<</ parameters.opengl >>
       name: Install conda
       command: <<include(scripts/install_miniconda.sh)>>

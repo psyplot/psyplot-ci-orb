@@ -1,7 +1,7 @@
 # Runs prior to every test
 setup() {
     # Load our script file.
-    source ./src/scripts/install_conda.sh
+    source ./src/scripts/install_miniconda.sh
 }
 
 @test '1: install miniconda' {

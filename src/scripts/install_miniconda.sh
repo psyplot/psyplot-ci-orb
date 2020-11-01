@@ -13,10 +13,11 @@ install_conda() {
 
     MINICONDA_FILE="Miniconda3-latest-${machine}-x86_64.sh"
     curl -L -O "${MINICONDA_URL}/${MINICONDA_FILE}"
-    bash $MINICONDA_FILE -bp ${INSTALL_TO}
+    bash "$MINICONDA_FILE" -bp "${INSTALL_TO}"
+    rm "${MINICONDA_FILE}"
 
     # add to conda init
-    eval "$(${INSTALL_TO}/bin/conda shell.bash hook)"
+    eval "$("${INSTALL_TO}"/bin/conda shell.bash hook)"
     conda init
 }
 
