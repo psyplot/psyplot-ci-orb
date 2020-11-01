@@ -5,6 +5,10 @@ setup() {
 }
 
 @test '1: install opengl' {
+    case "$(uname -s)" in
+        Linux*)     echo "Running test";;
+        *)          skip "Not on Linux, so skipping";;
+    esac
     install_opengl
     [ "$(apt list | grep libgl1-mesa-glx)" != "" ]
 }
