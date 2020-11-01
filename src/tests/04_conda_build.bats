@@ -21,5 +21,5 @@ setup() {
     export PYTHON_VERSION=3.8
     conda_build
 
-    [ -f "${CONDADIR}/conda-bld/noarch/docrep*.tar.bz2" ]
+    [ -f "${CONDADIR}/conda-bld/noarch/"docrep*.tar.bz2 ]
 }
