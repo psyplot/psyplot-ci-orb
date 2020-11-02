@@ -1,5 +1,6 @@
 deploy_pkg() {
     # deploy to package to the anaconda channel
+    CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
     conda activate base
