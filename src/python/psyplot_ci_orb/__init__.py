@@ -48,7 +48,9 @@ parser.add_argument(
         "BINSTAR_API_TOKEN or ANACONDA_API_TOKEN environment variable. This is "
         "required for the upload."
     ),
-    default=os.getenv("BINSTAR_API_TOKEN", os.getenv("ANACONDA_API_TOKEN")),
+    default=(
+        os.getenv("BINSTAR_API_TOKEN", os.getenv("ANACONDA_API_TOKEN")) or None
+    ),
 )
 
 parser.add_argument(

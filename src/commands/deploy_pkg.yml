@@ -1,0 +1,32 @@
+description: "Deploy the conda to anaconda"
+parameters:
+  condadir:
+    description: "Install location for anaconda"
+    type: string
+    default: "~/miniconda3"
+  recipe_dir:
+    description: Path to the recipe to build relative to the project directory
+    type: string
+    default: ci/conda-recipe
+  python_version:
+    description: Python version
+    type: string
+    default: "3.8"
+  label:
+    description: The channel label
+    type: string
+    default: main
+  dry_run:
+    description: Do not change anything on anaconda, just do a dry run
+    type: boolean
+    default: false
+steps:
+  - run:
+      environment:
+        CONDADIR: <<parameters.condadir>>
+        RECIPEDIR: <<parameters.recipe_dir>>
+        PYTHON_VERSION: <<parameters.python_version>>
+        LABEL: <<parameters.label>>
+        EXTRA_OPTS: <<# parameters.dry_run >> -n <</ parameters.dry_run >>
+      name: Deploy the docs to anaconda
+      command: <<include(scripts/deploy_pkg.sh)>>

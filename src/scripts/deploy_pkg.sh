@@ -6,6 +6,12 @@ deploy_pkg() {
     conda activate base
 
     pip install -i https://pypi.anaconda.org/psyplot/simple psyplot-ci-orb
+
+    if [ ${LABEL} != "" ]; then
+        ARGS="-l ${LABEL}"
+    fi
+
+    deploy-conda-recipe ${RECIPEDIR} ${ARGS} ${EXTRA_OPTS}
 }
 
 # Will not run if sourced for bats-core tests.
