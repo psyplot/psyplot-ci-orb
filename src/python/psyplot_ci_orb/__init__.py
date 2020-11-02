@@ -12,9 +12,19 @@ from binstar_client.inspect_package.conda import (
 )
 
 
+from ._version import get_versions
+
+__version__ = get_versions()["version"]
+del get_versions
+
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument("recipe_dir", help="Path to the recipe directory")
+
+parser.add_argument(
+    "-V", "--version", help="Show the version and exit", action="version"
+)
 
 parser.add_argument(
     "-py",

@@ -1,0 +1,2 @@
+include versioneer.py
+include src/python/psyplot_ci_orb/_version.py
