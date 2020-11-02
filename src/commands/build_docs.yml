@@ -27,5 +27,5 @@ steps:
         CONDAENV: <<parameters.conda_environment>>
         SRC_DIR: <<parameters.source>>
         BUILD_DIR: <<parameters.build_dir>>
-      name: Build recipe
+      name: Build documentation
       command: <<include(scripts/build_docs.sh)>>
