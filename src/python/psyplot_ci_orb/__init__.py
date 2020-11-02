@@ -23,7 +23,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument("recipe_dir", help="Path to the recipe directory")
 
 parser.add_argument(
-    "-V", "--version", help="Show the version and exit", action="version"
+    "-V",
+    "--version",
+    help="Show the version and exit",
+    action="version",
+    version=__version__,
 )
 
 parser.add_argument(
@@ -71,7 +75,9 @@ parser.add_argument(
 )
 
 
-def main(args):
+def main(parser_args=None):
+
+    args = parser.parse_args(parser_args)
 
     kws = {"python": args.python} if args.python else {}
 
@@ -148,5 +154,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    args = parser.parse_args()
-    main(args)
+    main()
