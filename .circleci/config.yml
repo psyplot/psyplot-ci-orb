@@ -100,9 +100,10 @@ workflows:
       - orb-tools/dev-promote-prod-from-commit-subject:
           orb-name: psyplot/psyplot-ci-orb
           context: orb-publishing
-          add-pr-comment: false
+          add-pr-comment: true
           fail-if-semver-not-indicated: true
-          publish-version-tag: false
+          publish-version-tag: true
+          ssh-fingerprints: 77:a2:25:de:77:ea:3e:46:97:3c:cd:f7:6c:88:42:12
           requires:
             - integration-test-1
           filters:
