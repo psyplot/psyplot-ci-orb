@@ -36,7 +36,7 @@ jobs:
       - checkout
       - psyplot-ci-orb/install_miniconda
       - psyplot-ci-orb/configure_conda
-      - psyplot-ci/install_opengl
+      - psyplot-ci-orb/install_opengl
   deploy-python:
     machine: true
     steps:
