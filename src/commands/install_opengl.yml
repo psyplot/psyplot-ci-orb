@@ -1,0 +1,6 @@
+description: >
+  "Install openGL for GUI-based applications (such as psyplot-gui or psy-view)"
+steps:
+  - run:
+      name: install apt requirements
+      command: <<include(scripts/install_opengl.sh)>>

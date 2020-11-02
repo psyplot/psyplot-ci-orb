@@ -1,0 +1,24 @@
+description: "Deploy the docs to Github Pages"
+parameters:
+  deploy_dir:
+    description: "The docs to deploy"
+    type: string
+    default: "docs/_build/html"
+  target_branch:
+    description: >
+        The branch in the git repository to deploy to
+    type: string
+    default: gh-pages
+  fingerprint:
+    description: The ssh fingerprint used for deploying to github pages
+    type: string
+steps:
+  - add_ssh_keys:
+      fingerprints:
+        - <<parameters.fingerprint>>
+  - run:
+      environment:
+        DEPLOY_DIR: <<parameters.deploy_dir>>
+        TARGET_BRANCH: <<parameters.target_branch>>
+      name: Deploy docs with gh-pages
+      command: <<include(scripts/deploy_docs.sh)>>
