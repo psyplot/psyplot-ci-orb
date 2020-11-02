@@ -24,7 +24,7 @@ setup() {
     # install the local version
     pip install -e .
 
-    export EXTRA_OPTS="-n"
+    export EXTRA_OPTS="-n -u psyplot"
     export LABEL="ci-test"
 
     source ./src/scripts/deploy_pkg.sh
