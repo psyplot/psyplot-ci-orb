@@ -46,6 +46,7 @@ jobs:
       - run:
           name: Build and deploy python package
           command: |
+            which conda || eval "$("${HOME}"/miniconda3/bin/conda shell.bash hook)"
             python setup.py sdist
             anaconda upload dist/psyplot-ci-orb*.tar.gz
 
