@@ -1,4 +1,5 @@
 build_docs() {
+    CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
     if [ ${CONDAENV} != "" ]; then

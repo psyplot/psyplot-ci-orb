@@ -1,4 +1,5 @@
 configure_conda() {
+    CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
     conda config --set always_yes yes --set changeps1 no

@@ -1,4 +1,5 @@
 install_miniconda() {
+    CONDADIR=$(eval echo "$CONDADIR")
     echo ""
     echo "Installing a fresh version of Miniconda."
     MINICONDA_URL="https://repo.anaconda.com/miniconda"

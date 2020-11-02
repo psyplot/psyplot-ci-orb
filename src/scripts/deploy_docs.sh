@@ -23,6 +23,7 @@ workflows:
               ignore: gh-pages
 EOF
 
+    CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
     conda activate base
 

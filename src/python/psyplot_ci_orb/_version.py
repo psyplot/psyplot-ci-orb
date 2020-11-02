@@ -41,7 +41,7 @@ def get_config():
     cfg = VersioneerConfig()
     cfg.VCS = "git"
     cfg.style = "pep440"
-    cfg.tag_prefix = ""
+    cfg.tag_prefix = "v"
     cfg.parentdir_prefix = "psyplot-ci-orb-"
     cfg.versionfile_source = "src/python/psyplot_ci_orb/_version.py"
     cfg.verbose = False

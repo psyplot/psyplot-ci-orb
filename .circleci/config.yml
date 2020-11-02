@@ -34,10 +34,20 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      # "greet" is a sample command packaged with this orb config.
-      # This sample integration test will run as long as the greet command exists. Once you remove the greet command you should remove this line.
-      # Push new changes first, before adding new tests to your config.
-      - psyplot-ci-orb/greet
+      - psyplot-ci-orb/install_miniconda
+      - psyplot-ci-orb/configure_conda
+      - psyplot-ci-orb/install_opengl
+  deploy-python:
+    machine: true
+    steps:
+      - checkout
+      - psyplot-ci-orb/install_miniconda
+      - psyplot-ci-orb/configure_conda
+      - run:
+          name: Build and deploy python package
+          command: |
+            python setup.py sdist
+            anaconda upload dist/psyplot-ci-orb*.tar.gz
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
@@ -98,6 +108,7 @@ workflows:
       # be skipped.
       # e.g. [semver:patch] will cause a patch version to be published.
       - orb-tools/dev-promote-prod-from-commit-subject:
+          name: publish-orb
           orb-name: psyplot/psyplot-ci-orb
           context: orb-publishing
           add-pr-comment: true
@@ -109,3 +120,7 @@ workflows:
           filters:
             branches:
               only: main
+      - deploy-python:
+          context: anaconda
+          requires:
+            - publish-orb
