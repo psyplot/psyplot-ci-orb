@@ -6,16 +6,19 @@ setup() {
     if [ ! -d "${CONDADIR}" ]; then
         install_miniconda
     fi
+
+    export CONDADIR=${BATS_TMPDIR}/miniconda-test
+    export CHANNELS="some channel"
+    export MAINCHANNEL="mainchannel"
+    export DEFAULTBRANCH="defaultbranch"
+    export PACKAGES="conda-build"
+
     source ./src/scripts/configure_conda.sh
 }
 
-@test '1: configure miniconda' {
+@test 'configure miniconda' {
     # Mock environment variables or functions by exporting them (after the script has been sourced)
-    export CONDADIR=${BATS_TMPDIR}/miniconda-test
-    export CHANNELS="some channel"
-    export MAINCHANNEL=mainchannel
-    export DEFAULTBRANCH=defaultbranch
-    export PACKAGES=conda-build
+
     configure_conda
 
     eval "$("${CONDADIR}"/bin/conda shell.bash hook)"

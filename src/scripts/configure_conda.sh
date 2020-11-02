@@ -2,7 +2,6 @@ configure_conda() {
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
     conda config --set always_yes yes --set changeps1 no
-    conda update -q conda
     for CHN in ${CHANNELS}; do
         conda config --add channels "${CHN}"
     done
@@ -11,9 +10,9 @@ configure_conda() {
         if [[ "${DEFAULTBRANCH}" != "" ]]; then
             conda config --add channels "${MAINCHANNEL}"/label/"${DEFAULTBRANCH}"
         fi
-    fi
-    if [[ "${CIRCLE_TAG}" == "" ]]; then
-        conda config --add channels psyplot/label/"${CIRCLE_BRANCH}"
+        if [[ "${CIRCLE_TAG}" == "" && "${CIRCLE_BRANCH}" != "" ]]; then
+            conda config --add channels "${MAINCHANNEL}"/label/"${CIRCLE_BRANCH}"
+        fi
     fi
 
     conda install -c defaults --override-channels ${PACKAGES}

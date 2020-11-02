@@ -4,7 +4,7 @@ setup() {
     source ./src/scripts/install_opengl.sh
 }
 
-@test '1: install opengl' {
+@test 'install opengl' {
     install_opengl
     case "$(uname -s)" in
         Linux*)     echo "Running test";;

@@ -1,4 +1,4 @@
-description: "Configure miniconda"
+description: "Build the conda recipe"
 parameters:
   condadir:
     description: "Install location for anaconda"
