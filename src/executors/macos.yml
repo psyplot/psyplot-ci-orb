@@ -1,0 +1,4 @@
+description: >
+  The default macos executor with xcode 12.2.0
+macos:
+  xcode: 12.2.0

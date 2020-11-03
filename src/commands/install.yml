@@ -1,0 +1,54 @@
+description: >
+  Install and build the conda package
+
+parameters:
+  checkout:
+    description: Do a checkout
+    type: boolean
+    default: true
+  condadir:
+    description: Install location for anaconda
+    type: string
+    default: "~/miniconda3"
+  main_channel:
+    description: Main channel to use with channels and for the branches
+    type: string
+    default: psyplot
+  default_branch:
+    description: Default branch channel for conda
+    type: string
+    default: master
+  channels:
+    description: Further default channels for conda
+    type: string
+    default: conda-forge
+  branch_label:
+    description: Use the branch name as a label for the anaconda channel
+    type: boolean
+    default: true
+  packages:
+    description: Extra packages to install into the base environment
+    type: string
+    default: conda-build anaconda-client conda-verify
+  install_opengl:
+    description: >
+      Whether to install opengl (necessary for GUI-based applications) or not
+    type: boolean
+    default: true
+steps:
+  - when:
+      condition: <<parameters.checkout>>
+      steps:
+        - checkout
+  - install-conda:
+      condadir: <<parameters.condadir>>
+  - when:
+      condition: <<parameters.install_opengl>>
+      steps:
+        - install-opengl
+  - configure-conda:
+      main_channel: <<parameters.main_channel>>
+      default_branch: <<parameters.default_branch>>
+      channels: <<parameters.channels>>
+      packages: <<parameters.packages>>
+      branch_label: << parameters.branch_label >>
