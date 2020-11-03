@@ -4,11 +4,11 @@ setup() {
     export RECIPEDIR="${BATS_TMPDIR}"/test-recipe
     mkdir "${RECIPEDIR}"
 
-    read -r -d RECIPEAPPEND << EOM
+    read -r -d '' RECIPEAPPEND << EOF
 test:
   requires:
     - pyqt=5
-EOM
+EOF
 
     source ./src/scripts/configure-recipe.sh
 }
