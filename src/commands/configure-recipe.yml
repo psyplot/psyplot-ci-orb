@@ -1,0 +1,16 @@
+description: "Configure the recipe with extra options"
+parameters:
+  recipe_dir:
+    description: Path to the recipe to build relative to the project directory
+    type: string
+    default: ci/conda-recipe
+  recipe_append:
+    description: The full content for recipe_append.yml
+    type: string
+steps:
+  - run:
+      environment:
+        RECIPEDIR: <<parameters.recipe_dir>>
+        RECIPEAPPEND: <<parameters.recipe_append>>
+      name: Configure the recipe
+      command: <<include(scripts/configure-recipe.sh)>>
