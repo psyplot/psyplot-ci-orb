@@ -8,7 +8,15 @@ deploy-pkg() {
     pip install -i https://pypi.anaconda.org/psyplot/simple psyplot-ci-orb
 
     if [ ${LABEL} != "" ]; then
-        ARGS="-l ${LABEL}"
+        ARGS="--label ${LABEL}"
+    fi
+
+    if [ "${USE_BRANCH}" == "1" ] && [ "${CIRCLE_TAG}" == "" ] && [ "${CIRCLE_BRANCH}" != "" ]; then
+        ARGS="${ARGS} --label ${CIRCLE_BRANCH}"
+    fi
+
+    if [ ${TOKEN} != "" ]; then
+        ARGS="${ARGS} --token ${TOKEN}"
     fi
 
     deploy-conda-recipe ${RECIPEDIR} ${ARGS} ${EXTRA_OPTS}

@@ -16,6 +16,10 @@ parameters:
     description: Further default channels for conda
     type: string
     default: conda-forge
+  branch_label:
+    description: Use the branch name as a label for the anaconda channel
+    type: boolean
+    default: true
   packages:
     description: Extra packages to install into the base environment
     type: string
@@ -28,5 +32,6 @@ steps:
         DEFAULTBRANCH: <<parameters.default_branch>>
         CHANNELS: <<parameters.channels>>
         PACKAGES: <<parameters.packages>>
+        USE_BRANCH: <<# parameters.branch_label >>1<</ parameters.branch_label >>
       name: Configure conda
       command: <<include(scripts/configure-conda.sh)>>

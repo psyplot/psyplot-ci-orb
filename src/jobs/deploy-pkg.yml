@@ -1,0 +1,47 @@
+description: >
+  Install and build the conda package
+
+executor: <<parameters.exec_environment>>
+
+parameters:
+  exec_environment:
+    default: default
+    description: >-
+      Set a custom executor for your job testing environment. By defeault the
+      machine image will be used. Use "macos" for building on OS X.
+    type: executor
+  condadir:
+    description: "Install location for anaconda"
+    type: string
+    default: "~/miniconda3"
+  recipe_dir:
+    description: Path to the recipe to build relative to the project directory
+    type: string
+    default: ci/conda-recipe
+  python_version:
+    description: Python version
+    type: string
+    default: "3.8"
+  label:
+    description: The channel label to deploy to
+    type: string
+    default: main
+  branch_label:
+    description: Use the branch name as a label for the anaconda channel
+    type: boolean
+    default: true
+  token:
+    description: >
+      Anaconda API token. This should be set through a context on CircleCI.
+      If this is not set, we'll assume it's $BINSTAR_API_TOKEN or
+      $ANACONDA_API_TOKEN
+    type: string
+    default: ""
+steps:
+  - deploy-pkg:
+      condadir: << parameters.condadir >>
+      recipe_dir: << parameters.recipe_dir >>
+      python_version: << parameters.python_version >>
+      label: << parameters.label >>
+      branch_label: << parameters.branch_label >>
+      token: << parameters.token >>
