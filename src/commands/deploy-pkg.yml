@@ -29,4 +29,4 @@ steps:
         LABEL: <<parameters.label>>
         EXTRA_OPTS: <<# parameters.dry_run >> -n <</ parameters.dry_run >>
       name: Deploy the docs to anaconda
-      command: <<include(scripts/deploy_pkg.sh)>>
+      command: <<include(scripts/deploy-pkg.sh)>>

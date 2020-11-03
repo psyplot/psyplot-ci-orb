@@ -1,11 +1,11 @@
 # Runs prior to every test
 setup() {
     # Load our script file.
-    source ./src/scripts/install_opengl.sh
+    source ./src/scripts/install-opengl.sh
 }
 
 @test 'install opengl' {
-    install_opengl
+    install-opengl
     case "$(uname -s)" in
         Linux*)     echo "Running test";;
         *)          skip "Not on Linux, so skipping";;

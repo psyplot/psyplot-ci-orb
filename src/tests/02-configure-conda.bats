@@ -2,9 +2,9 @@
 setup() {
     # Load our script file.
     export CONDADIR=${BATS_TMPDIR}/miniconda-test
-    source ./src/scripts/install_miniconda.sh
+    source ./src/scripts/install-conda.sh
     if [ ! -d "${CONDADIR}" ]; then
-        install_miniconda
+        install-conda
     fi
 
     export CONDADIR=${BATS_TMPDIR}/miniconda-test
@@ -13,13 +13,13 @@ setup() {
     export DEFAULTBRANCH="defaultbranch"
     export PACKAGES="conda-build"
 
-    source ./src/scripts/configure_conda.sh
+    source ./src/scripts/configure-conda.sh
 }
 
 @test 'configure miniconda' {
     # Mock environment variables or functions by exporting them (after the script has been sourced)
 
-    configure_conda
+    configure-conda
 
     eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
     [ "$(cat ~/.condarc | grep some)" != "" ] && \

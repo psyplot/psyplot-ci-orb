@@ -3,7 +3,7 @@ import os
 import os.path as osp
 import argparse
 
-from conda_build.api import render, get_output_file_paths, build
+from build-recipe.api import render, get_output_file_paths, build
 
 from binstar_client.utils import get_server_api
 from binstar_client import errors

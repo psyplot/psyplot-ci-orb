@@ -1,4 +1,4 @@
-configure_conda() {
+configure-conda() {
     CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
@@ -23,5 +23,5 @@ configure_conda() {
 # View src/tests for more information.
 ORB_TEST_ENV="bats-core"
 if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
-    configure_conda
+    configure-conda
 fi

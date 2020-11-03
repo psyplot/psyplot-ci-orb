@@ -1,4 +1,4 @@
-deploy_docs() {
+deploy-docs() {
     # deploy docs generated with sphinx to gh-pages
 
     touch ${DEPLOY_DIR}/.nojekyll
@@ -50,5 +50,5 @@ EOF
 # View src/tests for more information.
 ORB_TEST_ENV="bats-core"
 if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
-    deploy_docs
+    deploy-docs
 fi
