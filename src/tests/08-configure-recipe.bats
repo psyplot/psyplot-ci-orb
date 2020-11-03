@@ -4,7 +4,7 @@ setup() {
     export RECIPEDIR="${BATS_TMPDIR}"/test-recipe
     mkdir "${RECIPEDIR}"
 
-    read -r -d '' RECIPEAPPEND << EOF
+    read -r -d '' RECIPEAPPEND << EOF || true
 test:
   requires:
     - pyqt=5
