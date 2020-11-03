@@ -1,5 +1,9 @@
 description: "Deploy the docs to Github Pages"
 parameters:
+  condadir:
+    description: "Install location for anaconda"
+    type: string
+    default: "~/miniconda3"
   deploy_dir:
     description: "The docs to deploy"
     type: string
@@ -18,6 +22,7 @@ steps:
         - <<parameters.fingerprint>>
   - run:
       environment:
+        CONDADIR: <<parameters.condadir>>
         DEPLOY_DIR: <<parameters.deploy_dir>>
         TARGET_BRANCH: <<parameters.target_branch>>
       name: Deploy docs with gh-pages
