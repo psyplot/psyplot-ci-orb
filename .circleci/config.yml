@@ -114,6 +114,8 @@ workflows:
           orb-name: psyplot/psyplot-ci-orb
           context: orb-publishing
           add-pr-comment: true
+          bot-user: psyplot-admin
+          bot-token-variable: GITHUB_TOKEN
           fail-if-semver-not-indicated: true
           publish-version-tag: true
           ssh-fingerprints: 77:a2:25:de:77:ea:3e:46:97:3c:cd:f7:6c:88:42:12
