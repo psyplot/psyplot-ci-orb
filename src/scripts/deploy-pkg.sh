@@ -11,6 +11,10 @@ deploy-pkg() {
         ARGS="--label ${LABEL}"
     fi
 
+    if [ "${USE_BRANCH}" == "1" ] && [ "${CIRCLE_TAG}" == "" ] && [ "${CIRCLE_BRANCH}" != "" ]; then
+        ARGS="${ARGS} --label ${CIRCLE_BRANCH}"
+    fi
+
     if [ ${TOKEN} != "" ]; then
         ARGS="${ARGS} --token ${TOKEN}"
     fi

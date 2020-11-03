@@ -11,7 +11,7 @@ configure-conda() {
         if [[ "${DEFAULTBRANCH}" != "" ]]; then
             conda config --add channels "${MAINCHANNEL}"/label/"${DEFAULTBRANCH}"
         fi
-        if [[ "${CIRCLE_TAG}" == "" && "${CIRCLE_BRANCH}" != "" ]]; then
+        if [ "${USE_BRANCH}" == "1" ] && [ "${CIRCLE_TAG}" == "" ] && [ "${CIRCLE_BRANCH}" != "" ]; then
             conda config --add channels "${MAINCHANNEL}"/label/"${CIRCLE_BRANCH}"
         fi
     fi

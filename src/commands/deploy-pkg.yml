@@ -27,6 +27,10 @@ parameters:
       $ANACONDA_API_TOKEN
     type: string
     default: ""
+  branch_label:
+    description: Use the branch name as a label for the anaconda channel
+    type: boolean
+    default: true
   dry_run:
     description: Do not change anything on anaconda, just do a dry run
     type: boolean
@@ -37,7 +41,8 @@ steps:
         CONDADIR: <<parameters.condadir>>
         RECIPEDIR: <<parameters.recipe_dir>>
         PYTHON_VERSION: <<parameters.python_version>>
-        LABEL: <<parameters.label>>
+        LABELS: << parameters.label >>
+        USE_BRANCH: <<# parameters.branch_label >>1<</ parameters.branch_label >>
         EXTRA_OPTS: <<# parameters.dry_run >> -n <</ parameters.dry_run >>
         TOKEN: <<parameters.token>>
       name: Deploy the docs to anaconda
