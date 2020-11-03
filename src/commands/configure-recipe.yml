@@ -11,6 +11,6 @@ steps:
   - run:
       environment:
         RECIPEDIR: <<parameters.recipe_dir>>
-        RECIPEAPPEND: <<parameters.pythonrecipe_append_version>>
+        RECIPEAPPEND: <<parameters.recipe_append>>
       name: Configure the recipe
       command: <<include(scripts/configure-recipe.sh)>>
