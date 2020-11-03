@@ -1,6 +1,6 @@
 configure-recipe() {
 
-    echo "${RECIPEAPPEND}" > "${RECIPEDIR}"/recipe_append.yml
+    echo "${RECIPEAPPEND}" > "${RECIPEDIR}"/recipe_append.yaml
 
 }
 

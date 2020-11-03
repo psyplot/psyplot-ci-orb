@@ -16,7 +16,7 @@ EOM
 @test 'configure conda recipe' {
 
     configure-recipe && \
-    [ "$(grep pyqt=5 "${BATS_TMPDIR}"/test-recipe/recipe_append.yml)" != "" ]
+    [ "$(grep pyqt=5 "${BATS_TMPDIR}"/test-recipe/recipe_append.yaml)" != "" ]
 }
 
 teardown() {
