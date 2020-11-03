@@ -34,23 +34,23 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      # - psyplot-ci-orb/install-conda
-      # - psyplot-ci-orb/configure-conda
-      # - psyplot-ci-orb/install_opengl
+      - psyplot-ci-orb/install-conda
+      - psyplot-ci-orb/configure-conda
+      - psyplot-ci-orb/install-opengl
   deploy-python:
     machine: true
     steps:
       - checkout
       - run:
           command: git fetch --tags origin
-      # - psyplot-ci-orb/install-conda
-      # - psyplot-ci-orb/configure-conda
-      # - run:
-      #     name: Build and deploy python package
-      #     command: |
-      #       which conda || eval "$("${HOME}"/miniconda3/bin/conda shell.bash hook)"
-      #       python setup.py sdist
-      #       anaconda upload dist/psyplot-ci-orb*.tar.gz
+      - psyplot-ci-orb/install-conda
+      - psyplot-ci-orb/configure-conda
+      - run:
+          name: Build and deploy python package
+          command: |
+            which conda || eval "$("${HOME}"/miniconda3/bin/conda shell.bash hook)"
+            python setup.py sdist
+            anaconda upload dist/psyplot-ci-orb*.tar.gz
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
