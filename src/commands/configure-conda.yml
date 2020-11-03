@@ -29,4 +29,4 @@ steps:
         CHANNELS: <<parameters.channels>>
         PACKAGES: <<parameters.packages>>
       name: Configure conda
-      command: <<include(scripts/configure_conda.sh)>>
+      command: <<include(scripts/configure-conda.sh)>>

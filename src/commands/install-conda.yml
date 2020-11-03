@@ -9,4 +9,4 @@ steps:
       environment:
         CONDADIR: <<parameters.condadir>>
       name: Install conda
-      command: <<include(scripts/install_miniconda.sh)>>
+      command: <<include(scripts/install-conda.sh)>>

@@ -2,14 +2,14 @@
 setup() {
 
     export CONDADIR=${BATS_TMPDIR}/miniconda-test
-    source ./src/scripts/install_miniconda.sh
+    source ./src/scripts/install-conda.sh
     if [ ! -d "${CONDADIR}" ]; then
-        install_miniconda
+        install-conda
     fi
 
     export PACKAGES=conda-build
-    source ./src/scripts/configure_conda.sh
-    configure_conda
+    source ./src/scripts/configure-conda.sh
+    configure-conda
 
     git clone https://github.com/conda-forge/docrep-feedstock.git ${BATS_TMPDIR}/test-feedstock
 
@@ -17,12 +17,12 @@ setup() {
     export RECIPEDIR=${BATS_TMPDIR}/test-feedstock/recipe
     export PYTHON_VERSION=3.8
 
-    source ./src/scripts/conda_build.sh
+    source ./src/scripts/build-recipe.sh
 }
 
 @test 'build conda recipe' {
 
-    conda_build && \
+    build-recipe && \
     [ -f "${CONDADIR}/conda-bld/noarch/"docrep*.tar.bz2 ]
 }
 

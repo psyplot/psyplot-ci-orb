@@ -1,4 +1,4 @@
-deploy_pkg() {
+deploy-pkg() {
     # deploy to package to the anaconda channel
     CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
@@ -18,5 +18,5 @@ deploy_pkg() {
 # View src/tests for more information.
 ORB_TEST_ENV="bats-core"
 if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
-    deploy_pkg
+    deploy-pkg
 fi

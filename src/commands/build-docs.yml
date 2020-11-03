@@ -28,4 +28,4 @@ steps:
         SRC_DIR: <<parameters.source>>
         BUILD_DIR: <<parameters.build_dir>>
       name: Build documentation
-      command: <<include(scripts/build_docs.sh)>>
+      command: <<include(scripts/build-docs.sh)>>

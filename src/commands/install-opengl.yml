@@ -3,4 +3,4 @@ description: >
 steps:
   - run:
       name: install apt requirements
-      command: <<include(scripts/install_opengl.sh)>>
+      command: <<include(scripts/install-opengl.sh)>>

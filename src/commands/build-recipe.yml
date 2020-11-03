@@ -19,4 +19,4 @@ steps:
         RECIPEDIR: <<parameters.recipe_dir>>
         PYTHON_VERSION: <<parameters.python_version>>
       name: Build recipe
-      command: <<include(scripts/conda_build.sh)>>
+      command: <<include(scripts/build-recipe.sh)>>

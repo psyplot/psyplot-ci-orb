@@ -1,4 +1,4 @@
-install_opengl() {
+install-opengl() {
     case "$(uname -s)" in
         Linux*)     echo "Installing libgl1-mesa-glx and libegl1-mesa-dev";;
         *)          echo "Not on Linux, so skipping" && return 0;;
@@ -12,5 +12,5 @@ install_opengl() {
 # View src/tests for more information.
 ORB_TEST_ENV="bats-core"
 if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
-    install_opengl
+    install-opengl
 fi

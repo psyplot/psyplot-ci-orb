@@ -21,4 +21,4 @@ steps:
         DEPLOY_DIR: <<parameters.deploy_dir>>
         TARGET_BRANCH: <<parameters.target_branch>>
       name: Deploy docs with gh-pages
-      command: <<include(scripts/deploy_docs.sh)>>
+      command: <<include(scripts/deploy-docs.sh)>>

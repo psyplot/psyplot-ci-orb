@@ -4,9 +4,9 @@ setup() {
 
     # install conda and build a recipe
     export CONDADIR=${BATS_TMPDIR}/miniconda-test
-    source ./src/scripts/install_miniconda.sh
+    source ./src/scripts/install-conda.sh
     if [ ! -d "${CONDADIR}" ]; then
-        install_miniconda || return 1
+        install-conda || return 1
     fi
 
     export DEPLOY_DIR=${BATS_TMPDIR}/docs
@@ -16,12 +16,12 @@ setup() {
     mkdir ${DEPLOY_DIR}
     touch ${DEPLOY_DIR}/index.html
 
-    source ./src/scripts/deploy_docs.sh
+    source ./src/scripts/deploy-docs.sh
 }
 
 @test 'deploy the docs' {
 
-    result=$(deploy_docs | tail -n 1)
+    result=$(deploy-docs | tail -n 1)
     [ "$result" == "Published" ]
 }
 
