@@ -56,8 +56,8 @@ parser.add_argument(
 parser.add_argument(
     "-l",
     "--label",
-    help="The label for the file. Default: %(default)s",
-    default="main",
+    help="The label for the file.",
+    action="append",
 )
 
 parser.add_argument(
@@ -135,7 +135,7 @@ def main(parser_args=None):
                     filename,
                     fd,
                     distribution_type="conda",
-                    channels=(args.label,),
+                    channels=tuple(args.label or ["main"]),
                     dependencies=file_attrs.get("dependencies"),
                     attrs=file_attrs.get("attrs"),
                 )
@@ -143,16 +143,17 @@ def main(parser_args=None):
     else:
         # add the label
         print("Package is already available on anaconda.")
-        if args.label in dist["labels"]:
-            print(f"Package is already available under the {args.label} label.")
-            print("Nothing to do for me here.")
-        else:
-            print(f"Adding the label {args.label}")
-            if not args.dry_run:
-                aserver_api.add_channel(
-                    args.label, user, package, version, filename
-                )
-            print("Success!")
+        for label in args.label:
+            if label in dist["labels"]:
+                print(f"Package is already available under the {label} label.")
+                print("Nothing to do for me here.")
+            else:
+                print(f"Adding the label {label}")
+                if not args.dry_run:
+                    aserver_api.add_channel(
+                        label, user, package, version, filename
+                    )
+        print("Success!")
 
 
 if __name__ == "__main__":

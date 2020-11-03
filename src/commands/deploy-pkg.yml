@@ -35,6 +35,12 @@ parameters:
     description: Do not change anything on anaconda, just do a dry run
     type: boolean
     default: false
+  orb_version:
+    description: >
+      Version for the python deploy package to use. See
+      https://anaconda.org/psyplot/psyplot-ci-orb
+    type: string
+    default: "1.0.3"
 steps:
   - run:
       environment:
@@ -45,5 +51,6 @@ steps:
         USE_BRANCH: <<# parameters.branch_label >>1<</ parameters.branch_label >>
         EXTRA_OPTS: <<# parameters.dry_run >> -n <</ parameters.dry_run >>
         TOKEN: <<parameters.token>>
+        ORB_VERSION: << parameters.orb_version >>
       name: Deploy the docs to anaconda
       command: <<include(scripts/deploy-pkg.sh)>>

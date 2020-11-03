@@ -5,7 +5,10 @@ deploy-pkg() {
 
     conda activate base
 
-    pip install -i https://pypi.anaconda.org/psyplot/simple psyplot-ci-orb
+    if [ "${ORB_VERSION}" != "" ]; then
+        VERSION="===${ORB_VERSION}"
+    fi
+    pip install -i https://pypi.anaconda.org/psyplot/simple psyplot-ci-orb${VERSION}
 
     if [ ${LABEL} != "" ]; then
         ARGS="--label ${LABEL}"
