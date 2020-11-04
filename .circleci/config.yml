@@ -45,10 +45,24 @@ jobs:
       - psyplot-ci-orb/install-conda
       - psyplot-ci-orb/configure-conda
       - run:
-          name: Build and deploy python package
+          name: Build python package
           command: |
             which conda || eval "$("${HOME}"/miniconda3/bin/conda shell.bash hook)"
+            pip install .
             python setup.py sdist
+      - run:
+          name: Check python tag
+          command: |
+            VERSION=`deploy-conda-recipe -V`
+            TAG=`git describe`
+            if [ "${TAG:1}" == "${VERSION}" ]; then
+              # make sure the version is in the deploy-pkg.yml
+              [ "$(grep ${VERSION} src/commands/deploy-pkg.yml)" != "" ]
+            fi
+      - run:
+          name: deploy python package
+          command: |
+            which conda || eval "$("${HOME}"/miniconda3/bin/conda shell.bash hook)"
             anaconda upload dist/psyplot-ci-orb*.tar.gz
 
 workflows:
