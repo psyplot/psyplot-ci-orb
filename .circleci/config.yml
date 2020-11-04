@@ -132,7 +132,7 @@ workflows:
           ssh-fingerprints: 77:a2:25:de:77:ea:3e:46:97:3c:cd:f7:6c:88:42:12
           requires:
             - integration-test-1
-            - deploy-docs
+            - psyplot-ci-orb/deploy-docs
           filters:
             branches:
               only: main
