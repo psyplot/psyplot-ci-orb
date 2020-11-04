@@ -53,6 +53,7 @@ jobs:
       - run:
           name: Check python tag
           command: |
+            which conda || eval "$("${HOME}"/miniconda3/bin/conda shell.bash hook)"
             VERSION=`deploy-conda-recipe -V`
             TAG=`git describe`
             if [ "${TAG:1}" == "${VERSION}" ]; then
