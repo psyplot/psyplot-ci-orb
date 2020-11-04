@@ -105,7 +105,9 @@ workflows:
       - psyplot-ci-orb/install-and-build:
           build_recipe: false
           build_docs: false
-      - integration-test-1
+      - integration-test-1:
+          requires:
+            - psyplot-ci-orb/install-and-build
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
       # as that will determine whether a patch, minor or major
