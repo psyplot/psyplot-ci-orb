@@ -15,7 +15,7 @@ parameters:
     type: boolean
     default: true
   condadir:
-    description: Install location for anaconda
+    description: Install location for anaconda. Must end with miniconda3!
     type: string
     default: "~/miniconda3"
   recipe_dir:
@@ -51,6 +51,30 @@ parameters:
     description: The full content for recipe_append.yml
     type: string
     default: ""
+  conda_environment:
+    description: >
+        Path to a conda environment file to install additional packages. Must
+        install sphinx, too.
+        If this is empty (or the default file does not exist), we will assume
+        that everything is installed alread in the base conda environment.
+    type: string
+    default: docs/environment.yml
+  source:
+    description: Directory with the sphinx source files (i.e. with conf.py).
+    type: string
+    default: docs
+  build_dir:
+    description: Directory where to build the docs
+    type: string
+    default: docs/_build/html
+  build_recipe:
+    description: Build the conda recipe
+    type: boolean
+    default: true
+  build_docs:
+    description: Build the documentation
+    type: boolean
+    default: true
 steps:
   - install:
       checkout: <<parameters.checkout>>
@@ -63,7 +87,21 @@ steps:
   - configure-recipe:
       recipe_dir: <<parameters.recipe_dir>>
       recipe_append: <<parameters.recipe_append>>
-  - build-recipe:
-      condadir: <<parameters.condadir>>
-      recipe_dir: <<parameters.recipe_dir>>
-      python_version: <<parameters.python_version>>
+  - when:
+      condition: << parameters.build_recipe >>
+      steps:
+        - build-recipe:
+            condadir: <<parameters.condadir>>
+            recipe_dir: <<parameters.recipe_dir>>
+            python_version: <<parameters.python_version>>
+  - when:
+      condition: << parameters.build_docs >>
+      steps:
+        - build-docs:
+            condadir: <<parameters.condadir>>
+            conda_environment: <<parameters.conda_environment>>
+            source: <<parameters.source>>
+            build_dir: <<parameters.build_dir>>
+  - persist_to_workspace:
+      root: "~"
+      paths: "./*"
