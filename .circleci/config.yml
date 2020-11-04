@@ -109,11 +109,11 @@ workflows:
       - integration-test-1:
           requires:
             - psyplot-ci-orb/install-and-build
-      # - psyplot-ci-orb/deploy-docs:
-      #     requires:
-      #       - psyplot-ci-orb/install-and-build
-      #     dry_run: true
-      #     fingerprint: ""
+      - psyplot-ci-orb/deploy-docs:
+          requires:
+            - psyplot-ci-orb/install-and-build
+          dry_run: true
+          fingerprint: ""
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
       # as that will determine whether a patch, minor or major
