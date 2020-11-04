@@ -32,14 +32,14 @@ parameters:
     default: false
   workspace:
     description: A workspace to attach. Attach none if empty.
-    type: str
+    type: string
     default: "~"
 steps:
   - when:
-    condition: << parameters.workspace >>
-    steps:
-      - attach_workspace:
-          at: << parameters.workspace >>
+      condition: << parameters.workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace >>
   - deploy-docs:
       condadir: <<parameters.condadir>>
       fingerprint: <<parameters.fingerprint>>

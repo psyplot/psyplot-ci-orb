@@ -43,14 +43,14 @@ parameters:
     default: false
   workspace:
     description: A workspace to attach. Attach none if empty.
-    type: str
+    type: string
     default: "~"
 steps:
   - when:
-    condition: << parameters.workspace >>
-    steps:
-      - attach_workspace:
-          at: << parameters.workspace >>
+      condition: << parameters.workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace >>
   - deploy-pkg:
       condadir: << parameters.condadir >>
       recipe_dir: << parameters.recipe_dir >>
