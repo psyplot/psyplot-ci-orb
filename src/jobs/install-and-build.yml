@@ -84,12 +84,12 @@ steps:
       default_branch: <<parameters.default_branch>>
       channels: <<parameters.channels>>
       packages: <<parameters.packages>>
-  - configure-recipe:
-      recipe_dir: <<parameters.recipe_dir>>
-      recipe_append: <<parameters.recipe_append>>
   - when:
       condition: << parameters.build_recipe >>
       steps:
+        - configure-recipe:
+            recipe_dir: <<parameters.recipe_dir>>
+            recipe_append: <<parameters.recipe_append>>
         - build-recipe:
             condadir: <<parameters.condadir>>
             recipe_dir: <<parameters.recipe_dir>>
