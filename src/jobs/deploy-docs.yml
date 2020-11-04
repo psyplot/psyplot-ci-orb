@@ -26,6 +26,10 @@ parameters:
   fingerprint:
     description: The ssh fingerprint used for deploying to github pages
     type: string
+  dry_run:
+    description: Do not change anything on Github, just do a dry run
+    type: boolean
+    default: false
   workspace:
     description: A workspace to attach. Attach none if empty.
     type: str
@@ -41,3 +45,4 @@ steps:
       fingerprint: <<parameters.fingerprint>>
       target_branch: <<parameters.target_branch>>
       deploy_dir: <<parameters.deploy_dir>>
+      dry_run: << parameters.dry_run >>
