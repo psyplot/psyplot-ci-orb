@@ -75,6 +75,10 @@ parameters:
     description: Build the documentation
     type: boolean
     default: true
+  build_args:
+    description: Additional command line arguments for conda-build
+    type: string
+    default: ""
 steps:
   - install:
       checkout: <<parameters.checkout>>
@@ -94,6 +98,7 @@ steps:
             condadir: <<parameters.condadir>>
             recipe_dir: <<parameters.recipe_dir>>
             python_version: <<parameters.python_version>>
+            build_args: <<parameters.build_args>>
   - when:
       condition: << parameters.build_docs >>
       steps:
