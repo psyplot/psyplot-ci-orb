@@ -12,11 +12,16 @@ parameters:
     description: Python version
     type: string
     default: "3.8"
+  build_args:
+    description: Additional command line arguments for conda-build
+    type: string
+    default: ""
 steps:
   - run:
       environment:
         CONDADIR: <<parameters.condadir>>
         RECIPEDIR: <<parameters.recipe_dir>>
         PYTHON_VERSION: <<parameters.python_version>>
+        EXTRA_ARGS: <<parameters.build_args>>
       name: Build recipe
       command: <<include(scripts/build-recipe.sh)>>
