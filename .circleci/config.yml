@@ -32,8 +32,8 @@ jobs:
   integration-test-1:
     machine: true
     steps:
-      - checkout
-      - psyplot-ci-orb/install-conda
+      - attach_workspace:
+          at: "~"
       - psyplot-ci-orb/configure-conda
       - psyplot-ci-orb/install-opengl
   deploy-python:
@@ -102,7 +102,20 @@ workflows:
     when: << pipeline.parameters.run-integration-tests >>
     jobs:
       # Run any integration tests defined within the `jobs` key.
-      - integration-test-1
+      - psyplot-ci-orb/install-and-build:
+          build_recipe: false
+          source: src/tests/test-docs
+          conda_environment: src/tests/test-docs/environment.yml
+          build_dir: src/tests/test-docs/_build/html
+      - integration-test-1:
+          requires:
+            - psyplot-ci-orb/install-and-build
+      - psyplot-ci-orb/deploy-docs:
+          requires:
+            - psyplot-ci-orb/install-and-build
+          deploy_dir: src/tests/test-docs/_build/html
+          dry_run: true
+          fingerprint: ""
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
       # as that will determine whether a patch, minor or major
@@ -121,6 +134,7 @@ workflows:
           ssh-fingerprints: 77:a2:25:de:77:ea:3e:46:97:3c:cd:f7:6c:88:42:12
           requires:
             - integration-test-1
+            - psyplot-ci-orb/deploy-docs
           filters:
             branches:
               only: main

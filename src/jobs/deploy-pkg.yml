@@ -37,7 +37,20 @@ parameters:
       $ANACONDA_API_TOKEN
     type: string
     default: ""
+  dry_run:
+    description: Do not change anything on anaconda, just do a dry run
+    type: boolean
+    default: false
+  workspace:
+    description: A workspace to attach. Attach none if empty.
+    type: string
+    default: "~"
 steps:
+  - when:
+      condition: << parameters.workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace >>
   - deploy-pkg:
       condadir: << parameters.condadir >>
       recipe_dir: << parameters.recipe_dir >>
@@ -45,3 +58,4 @@ steps:
       label: << parameters.label >>
       branch_label: << parameters.branch_label >>
       token: << parameters.token >>
+      dry_run: << parameters.dry_run >>

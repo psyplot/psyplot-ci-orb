@@ -16,6 +16,10 @@ parameters:
   fingerprint:
     description: The ssh fingerprint used for deploying to github pages
     type: string
+  dry_run:
+    description: Do not change anything on Github, just do a dry run
+    type: boolean
+    default: false
 steps:
   - add_ssh_keys:
       fingerprints:
@@ -25,5 +29,6 @@ steps:
         CONDADIR: <<parameters.condadir>>
         DEPLOY_DIR: <<parameters.deploy_dir>>
         TARGET_BRANCH: <<parameters.target_branch>>
+        DRY_RUN: <<# parameters.dry_run >>1<</ parameters.dry_run >>
       name: Deploy docs with gh-pages
       command: <<include(scripts/deploy-docs.sh)>>

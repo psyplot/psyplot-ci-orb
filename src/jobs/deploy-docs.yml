@@ -26,9 +26,23 @@ parameters:
   fingerprint:
     description: The ssh fingerprint used for deploying to github pages
     type: string
+  dry_run:
+    description: Do not change anything on Github, just do a dry run
+    type: boolean
+    default: false
+  workspace:
+    description: A workspace to attach. Attach none if empty.
+    type: string
+    default: "~"
 steps:
+  - when:
+      condition: << parameters.workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace >>
   - deploy-docs:
       condadir: <<parameters.condadir>>
       fingerprint: <<parameters.fingerprint>>
       target_branch: <<parameters.target_branch>>
       deploy_dir: <<parameters.deploy_dir>>
+      dry_run: << parameters.dry_run >>
