@@ -20,9 +20,9 @@ setup() {
     source ./src/scripts/build-recipe.sh
     build-recipe || return 1
 
-    export SRC_DIR="${BATS_TMPDIR}"/test-docs
-    export BUILD_DIR="${BATS_TMPDIR}"/test-docs/_build/html
-    export CONDAENV="${BATS_TMPDIR}"/test-docs/environment.yml
+    export SRC_DIR=./src/tests/test-docs
+    export BUILD_DIR=./src/tests/test-docs/_build/html
+    export CONDAENV=./src/tests/test-docs/environment.yml
 
     source ./src/scripts/build-docs.sh
 }
@@ -30,11 +30,11 @@ setup() {
 @test 'build the docs' {
 
     build-docs && \
-    [ -d "${BATS_TMPDIR}"/test-docs/_build/html ] && \
-    [ -f "${BATS_TMPDIR}"/test-docs/_build/html/index.html ] && \
+    [ -d ./src/tests/test-docs/_build/html ] && \
+    [ -f ./src/tests/test-docs/_build/html/index.html ] && \
     [ "$(conda list -n docs | grep docrep | grep local)" != "" ]
 }
 
 teardown() {
-    rm -rf ${BATS_TMPDIR}/test-feedstock ${BATS_TMPDIR}/test-docs
+    rm -rf ${BATS_TMPDIR}/test-feedstock
 }
