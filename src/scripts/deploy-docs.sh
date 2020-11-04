@@ -4,7 +4,7 @@ deploy-docs() {
     touch ${DEPLOY_DIR}/.nojekyll
 
     mkdir -p ${DEPLOY_DIR}/.circleci
-    cat ${DEPLOY_DIR}/.circleci/config.yml << EOF
+    cat > ${DEPLOY_DIR}/.circleci/config.yml << EOF
 version: 2.1
 
 jobs:
