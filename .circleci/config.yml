@@ -104,10 +104,13 @@ workflows:
       # Run any integration tests defined within the `jobs` key.
       - psyplot-ci-orb/install-and-build:
           build_recipe: false
-          build_docs: false
+          source: src/tests/test-docs
+          build_dir: src/tests/test-docs/_build/html
       - integration-test-1:
+      - deploy-docs:
           requires:
             - psyplot-ci-orb/install-and-build
+          dry_run: true
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
       # as that will determine whether a patch, minor or major
@@ -126,6 +129,7 @@ workflows:
           ssh-fingerprints: 77:a2:25:de:77:ea:3e:46:97:3c:cd:f7:6c:88:42:12
           requires:
             - integration-test-1
+            - deploy-docs
           filters:
             branches:
               only: main
