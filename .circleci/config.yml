@@ -102,7 +102,7 @@ workflows:
     when: << pipeline.parameters.run-integration-tests >>
     jobs:
       # Run any integration tests defined within the `jobs` key.
-      - psyplot-ci-orb/install-and-build
+      - psyplot-ci-orb/install-and-build:
           build_recipe: false
           build_docs: false
       - integration-test-1
