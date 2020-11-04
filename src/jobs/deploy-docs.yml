@@ -26,7 +26,16 @@ parameters:
   fingerprint:
     description: The ssh fingerprint used for deploying to github pages
     type: string
+  workspace:
+    description: A workspace to attach. Attach none if empty.
+    type: str
+    default: "~"
 steps:
+  - when:
+    condition: << parameters.workspace >>
+    steps:
+      - attach_workspace:
+          at: << parameters.workspace >>
   - deploy-docs:
       condadir: <<parameters.condadir>>
       fingerprint: <<parameters.fingerprint>>
