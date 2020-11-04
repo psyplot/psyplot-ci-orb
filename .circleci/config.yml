@@ -105,6 +105,7 @@ workflows:
       - psyplot-ci-orb/install-and-build:
           build_recipe: false
           source: src/tests/test-docs
+          conda_environment: src/tests/test-docs/environment.yml
           build_dir: src/tests/test-docs/_build/html
       - integration-test-1:
           requires:
