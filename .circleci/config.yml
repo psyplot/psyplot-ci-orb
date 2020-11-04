@@ -113,6 +113,7 @@ workflows:
       - psyplot-ci-orb/deploy-docs:
           requires:
             - psyplot-ci-orb/install-and-build
+          deploy_dir: src/tests/test-docs/_build/html
           dry_run: true
           fingerprint: ""
       # Publish a semver version of the orb. relies on
