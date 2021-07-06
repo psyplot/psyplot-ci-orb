@@ -4,7 +4,7 @@ build-docs() {
 
     if [ ${CONDAENV} != "" ]; then
         if [ -f ${CONDAENV} ]; then
-            conda env create -n docs -f ${CONDAENV}
+            mamba env create -n docs -f ${CONDAENV}
             conda activate docs
         fi
     fi
