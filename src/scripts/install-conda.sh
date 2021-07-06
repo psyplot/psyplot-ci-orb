@@ -12,7 +12,7 @@ install-conda() {
 
     echo "Operating system: ${machine}"
 
-    MINICONDA_FILE="Mambaforge-Linux-x86_64.sh"
+    MINICONDA_FILE="Mambaforge-${machine}-x86_64.sh"
     curl -L -O "${MINICONDA_URL}/${MINICONDA_FILE}"
     bash "$MINICONDA_FILE" -bp "${CONDADIR}"
     rm "${MINICONDA_FILE}"
