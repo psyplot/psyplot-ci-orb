@@ -22,7 +22,7 @@ setup() {
 
     eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
     # install the local version
-    pip install -e .
+    pip install --no-deps .
 
     export EXTRA_OPTS="-n -u psyplot"
     export LABEL="ci-test"

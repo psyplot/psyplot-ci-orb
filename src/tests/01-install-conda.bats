@@ -6,7 +6,6 @@ setup() {
 }
 
 @test 'install miniconda' {
-    install-conda
-    eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
-    [ $(which conda) == ${BATS_TMPDIR}/miniconda-test/bin/conda ]
+    install-conda && \
+    [ -f "${CONDADIR}/bin/conda" ]
 }

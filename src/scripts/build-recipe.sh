@@ -2,7 +2,7 @@ build-recipe() {
     CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
-    conda build "${RECIPEDIR}" --python ${PYTHON_VERSION} ${EXTRA_ARGS}
+    mamba build "${RECIPEDIR}" --python ${PYTHON_VERSION} ${EXTRA_ARGS}
 }
 
 # Will not run if sourced for bats-core tests.

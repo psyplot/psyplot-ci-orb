@@ -3,6 +3,7 @@ configure-conda() {
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
     conda config --set always_yes yes --set changeps1 no
+    conda config --add channels conda-forge
     for CHN in ${CHANNELS}; do
         conda config --add channels "${CHN}"
     done
@@ -16,8 +17,7 @@ configure-conda() {
         fi
     fi
 
-    conda install -c defaults --override-channels ${PACKAGES}
-    conda install -c conda-forge -n base mamba
+    conda install -c conda-forge ${PACKAGES}
 }
 
 # Will not run if sourced for bats-core tests.
