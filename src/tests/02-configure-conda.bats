@@ -8,7 +8,7 @@ setup() {
     fi
 
     export CONDADIR=${BATS_TMPDIR}/miniconda-test
-    export CHANNELS="some channel"
+    export CHANNELS="conda-forge"
     export MAINCHANNEL="psyplot"
     export DEFAULTBRANCH="master"
     export PACKAGES="conda-build"
@@ -22,8 +22,7 @@ setup() {
     configure-conda
 
     eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
-    [ "$(cat ~/.condarc | grep some)" != "" ] && \
-    [ "$(cat ~/.condarc | grep channel)" != "" ] && \
+    [ "$(cat ~/.condarc | grep conda-forge)" != "" ] && \
     [ "$(cat ~/.condarc | grep psyplot)" != "" ] && \
     [ "$(cat ~/.condarc | grep psyplot/label/master)" != "" ]
     [ "$(conda list | grep conda-build)" != "" ]
