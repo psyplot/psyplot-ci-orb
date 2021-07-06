@@ -1,8 +1,8 @@
 install-conda() {
     CONDADIR=$(eval echo "$CONDADIR")
     echo ""
-    echo "Installing a fresh version of Miniconda."
-    MINICONDA_URL="https://repo.anaconda.com/miniconda"
+    echo "Installing a fresh version of Mambaforge."
+    MINICONDA_URL="https://github.com/conda-forge/miniforge/releases/latest/download/"
 
     case "$(uname -s)" in
         Linux*)     machine=Linux;;
@@ -12,7 +12,7 @@ install-conda() {
 
     echo "Operating system: ${machine}"
 
-    MINICONDA_FILE="Miniconda3-latest-${machine}-x86_64.sh"
+    MINICONDA_FILE="Mambaforge-Linux-x86_64.sh"
     curl -L -O "${MINICONDA_URL}/${MINICONDA_FILE}"
     bash "$MINICONDA_FILE" -bp "${CONDADIR}"
     rm "${MINICONDA_FILE}"

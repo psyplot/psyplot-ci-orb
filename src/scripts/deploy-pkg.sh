@@ -8,7 +8,9 @@ deploy-pkg() {
     if [ "${ORB_VERSION}" != "" ]; then
         VERSION="===${ORB_VERSION}"
     fi
-    pip install -i https://pypi.anaconda.org/psyplot/simple psyplot-ci-orb${VERSION}
+    conda install anaconda-client conda-build
+    echo "Installing psyplot-ci-orb"
+    pip install -i https://pypi.anaconda.org/psyplot/simple --no-deps psyplot-ci-orb${VERSION}
 
     if [ ${LABEL} != "" ]; then
         ARGS="--label ${LABEL}"

@@ -17,8 +17,7 @@ configure-conda() {
         fi
     fi
 
-    conda install -c defaults --override-channels ${PACKAGES}
-    conda install -c conda-forge -n base mamba
+    conda install -c conda-forge ${PACKAGES}
 }
 
 # Will not run if sourced for bats-core tests.
