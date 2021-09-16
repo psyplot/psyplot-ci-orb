@@ -3,7 +3,7 @@ setup-conda-env() {
     CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
-    conda env create -n "${CONDAENV_NAME}" -f "${CONDAENV_FILE}"
+    mamba env create -n "${CONDAENV_NAME}" -f "${CONDAENV_FILE}"
 
 }
 
