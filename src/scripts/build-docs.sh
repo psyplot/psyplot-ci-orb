@@ -9,7 +9,10 @@ build-docs() {
         fi
     fi
 
-    sphinx-build ${SRC_DIR} ${BUILD_DIR}
+    WORKDIR="$(pwd)"
+    cd "${SRC_DIR}" || exit 1
+    sphinx-build . "${WORKDIR}/${BUILD_DIR}"
+    cd "${WORKDIR}" || exit 1
 }
 
 # Will not run if sourced for bats-core tests.
