@@ -1,11 +1,7 @@
 description: >
-  Install and build the conda package
+  Setup a conda environment
 
 parameters:
-  checkout:
-    description: Do a checkout
-    type: boolean
-    default: true
   environment_file:
     description: Path to the conda environment file
     type: string
