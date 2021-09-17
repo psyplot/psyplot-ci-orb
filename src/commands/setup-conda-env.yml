@@ -1,0 +1,23 @@
+description: >
+  Install and build the conda package
+
+parameters:
+  checkout:
+    description: Do a checkout
+    type: boolean
+    default: true
+  environment_file:
+    description: Path to the conda environment file
+    type: string
+    default: ci/environment.yml
+  conda_env:
+    description: Name of the conda environment
+    type: string
+    default: test
+steps:
+  - run:
+      environment:
+        CONDAENV_FILE: <<parameters.environment_file>>
+        CONDAENV_NAME: <<parameters.conda_env>>
+      name: Create conda environment
+      command: <<include(scripts/setup-conda-env.sh)>>
