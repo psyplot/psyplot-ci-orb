@@ -1,0 +1,33 @@
+description: >
+  Run tests in parallel using circleci
+
+parameters:
+  conda_env:
+    description: Name of the conda environment
+    type: string
+    default: test
+  test_dir:
+    description: Path to the test directory
+    type: string
+    default: tests
+  test_upload_dir:
+    description: Path to the directory where to store XML test files
+    type: string
+    default: test-results
+  pytest_args:
+    description: Any arguments passed to the pytest call
+    type: string
+    default: ""
+
+steps:
+  - run:
+      environment:
+        CONDAENV_FILE: <<parameters.environment_file>>
+        CONDAENV_NAME: <<parameters.conda_env>>
+        TESTDIR: <<parameters.test_dir>>
+        TESTUPLOADDIR: <<parameters.test_upload_dir>>
+        PYTEST_ARGS: <<parameters.pytest_args>>
+      name: Run tests
+      command: <<include(scripts/run-parallel-tests.sh)>>
+  - store_test_results:
+    path: <<parameters.test_upload_dir>>
