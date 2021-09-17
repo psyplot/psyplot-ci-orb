@@ -8,6 +8,7 @@ run-parallel-tests() {
     echo "Test files:"
     echo "${TESTS}"
     mkdir -p "${TESTUPLOADDIR}"
+    pytest -h || pip install pytest pytest-cov
     pytest -xv --junitxml="${TESTUPLOADDIR}"/junit_ref.xml ${PYTEST_ARGS} ${TESTS}
 
 }
