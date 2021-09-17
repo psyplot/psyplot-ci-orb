@@ -10,6 +10,7 @@ run-parallel-tests() {
     mkdir -p "${TESTUPLOADDIR}"
     pytest -h || pip install pytest pytest-cov
     pytest -xv --junitxml="${TESTUPLOADDIR}"/junit_ref.xml ${PYTEST_ARGS} ${TESTS}
+    conda deactivate
 
 }
 
