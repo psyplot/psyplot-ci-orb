@@ -11,10 +11,8 @@ setup() {
     source ./src/scripts/configure-conda.sh
     configure-conda
 
-    git clone https://github.com/conda-forge/docrep-feedstock.git ${BATS_TMPDIR}/test-feedstock
+    mkdir -p ${BATS_TMPDIR}/test-feedstock/ci
 
-    export CONDADIR=${BATS_TMPDIR}/miniconda-test
-    mkdir -p ${BATS_TMPDIR}/test-feedstock/ci/
     export CONDAENV_FILE=${BATS_TMPDIR}/test-feedstock/ci/environment.yml
     cat > "${CONDAENV_FILE}" << EOF
 dependencies:
