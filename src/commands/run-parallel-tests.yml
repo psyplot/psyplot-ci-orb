@@ -29,4 +29,4 @@ steps:
       name: Run tests
       command: <<include(scripts/run-parallel-tests.sh)>>
   - store_test_results:
-    path: <<parameters.test_upload_dir>>
+      path: <<parameters.test_upload_dir>>
