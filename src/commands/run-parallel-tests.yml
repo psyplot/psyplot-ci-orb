@@ -22,7 +22,6 @@ parameters:
 steps:
   - run:
       environment:
-        CONDAENV_FILE: <<parameters.environment_file>>
         CONDAENV_NAME: <<parameters.conda_env>>
         TESTDIR: <<parameters.test_dir>>
         TESTUPLOADDIR: <<parameters.test_upload_dir>>
