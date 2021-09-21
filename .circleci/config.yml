@@ -3,11 +3,14 @@ version: 2.1
 orbs:
   # Replace this with your own!
   psyplot-ci-orb: psyplot/psyplot-ci-orb@<<pipeline.parameters.dev-orb-version>>
+  mattermost-plugin-notify: nathanaelhoun/mattermost-plugin-notify@1.2.0
   orb-tools: circleci/orb-tools@10.0
   bats: circleci/bats@1.0
   shellcheck: circleci/shellcheck@2.0
 
 executors:
+  default:
+    machine: true
   macos-executor:
     macos:
       xcode: 12.2.0
@@ -19,6 +22,10 @@ parameters:
     description: An internal flag to prevent integration test from running before a development version has been created.
     type: boolean
     default: false
+  unit-test-executor:
+    description: Executor for the unit tests. Can be default or macos-executor
+    type: string
+    default: default
   dev-orb-version:
     description: >
       The development version of the orb to test.
@@ -29,7 +36,7 @@ parameters:
 
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
-  integration-test-1:
+  integration-test-configure:
     machine: true
     steps:
       - attach_workspace:
@@ -79,23 +86,23 @@ workflows:
           exclude: SC2148,SC2086
       # optional: Run BATS tests against your scripts
       - bats/run:
-          name: linux-tests
+          name: unit-tests
           path: ./src/tests
-      - bats/run:
-          name: macos-tests
-          path: ./src/tests
-          exec_environment: macos-executor
+          exec_environment: << pipeline.parameters.unit-test-executor >>
       # If you accept building open source forks, protect your secrects behind a restricted context.
       # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
       # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
-      - hold-for-dev-publish:
-          type: approval
+      - mattermost-plugin-notify/approval-notification:
+          message: Hello @all! A workflow on https://app.circleci.com/pipelines/github/psyplot/psyplot-ci-orb is awaiting your approval.
           requires:
             - orb-tools/lint
             - orb-tools/pack
-            - linux-tests
-            - macos-tests
+            - unit-tests
             - shellcheck/check
+      - hold-for-dev-publish:
+          type: approval
+          requires:
+            - mattermost-plugin-notify/approval-notification
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
           orb-name: psyplot/psyplot-ci-orb
@@ -118,16 +125,24 @@ workflows:
     jobs:
       # Run any integration tests defined within the `jobs` key.
       - psyplot-ci-orb/install-and-build:
+          name: integration-test-install
           build_recipe: false
           source: src/tests/test-docs
           conda_environment: src/tests/test-docs/environment.yml
+          environment_file: src/tests/test-tests/environment.yml
           build_dir: src/tests/test-docs/_build/html
-      - integration-test-1:
+      - integration-test-configure:
           requires:
-            - psyplot-ci-orb/install-and-build
+            - integration-test-install
+      - psyplot-ci-orb/test-parallel:
+          name: integration-test-parallel
+          requires:
+            - integration-test-install
+          test_dir: src/tests/test-tests
       - psyplot-ci-orb/deploy-docs:
+          name: integration-test-docs
           requires:
-            - psyplot-ci-orb/install-and-build
+            - integration-test-install
           deploy_dir: src/tests/test-docs/_build/html
           dry_run: true
           fingerprint: ""
@@ -149,8 +164,9 @@ workflows:
           publish-version-tag: true
           ssh-fingerprints: 77:a2:25:de:77:ea:3e:46:97:3c:cd:f7:6c:88:42:12
           requires:
-            - integration-test-1
-            - psyplot-ci-orb/deploy-docs
+            - integration-test-parallel
+            - integration-test-configure
+            - integration-test-docs
           filters:
             branches:
               only: main

@@ -24,5 +24,6 @@ steps:
         CONDAENV_FILE: <<parameters.environment_file>>
         CONDAENV_NAME: <<parameters.conda_env>>
         RECIPEDIR: <<parameters.recipe_dir>>
+        CONDADIR: <<parameters.condadir>>
       name: Create conda environment
       command: <<include(scripts/setup-conda-env.sh)>>

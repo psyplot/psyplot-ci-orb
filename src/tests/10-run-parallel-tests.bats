@@ -13,11 +13,7 @@ setup() {
 
     mkdir -p ${BATS_TMPDIR}/test-feedstock/ci
 
-    export CONDAENV_FILE=${BATS_TMPDIR}/test-feedstock/ci/environment.yml
-    cat > "${CONDAENV_FILE}" << EOF
-dependencies:
-- python
-EOF
+    export CONDAENV_FILE=./src/tests/test-tests/environment.yml
     export CONDAENV_NAME="test_env"
 
     source ./src/scripts/setup-conda-env.sh
@@ -32,7 +28,7 @@ EOF
 @test 'setup conda env' {
 
     run-parallel-tests && \
-    [ -f "${TESTUPLOADDIR}/junit_ref.xml" ]
+    [ -f "${TESTUPLOADDIR}/junit.xml" ]
 }
 
 teardown() {
