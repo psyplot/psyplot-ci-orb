@@ -29,7 +29,7 @@ parameters:
 
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
-  integration-test-1:
+  integration-test-configure:
     machine: true
     steps:
       - attach_workspace:
@@ -118,22 +118,24 @@ workflows:
     jobs:
       # Run any integration tests defined within the `jobs` key.
       - psyplot-ci-orb/install-and-build:
+          name: integration-test-install
           build_recipe: false
           source: src/tests/test-docs
           conda_environment: src/tests/test-docs/environment.yml
           environment_file: src/tests/test-tests/environment.yml
           build_dir: src/tests/test-docs/_build/html
+      - integration-test-configure:
+          requires:
+            - integration-test-install
       - psyplot-ci-orb/test-parallel:
-          name: parallel-tests
+          name: integration-test-parallel
           requires:
-            - psyplot-ci-orb/install-and-build
+            - integration-test-install
           test_dir: src/tests/test-tests
-      - integration-test-1:
-          requires:
-            - psyplot-ci-orb/install-and-build
       - psyplot-ci-orb/deploy-docs:
+          name: integration-test-docs
           requires:
-            - psyplot-ci-orb/install-and-build
+            - integration-test-install
           deploy_dir: src/tests/test-docs/_build/html
           dry_run: true
           fingerprint: ""
@@ -155,9 +157,9 @@ workflows:
           publish-version-tag: true
           ssh-fingerprints: 77:a2:25:de:77:ea:3e:46:97:3c:cd:f7:6c:88:42:12
           requires:
-            - parallel-tests
-            - integration-test-1
-            - psyplot-ci-orb/deploy-docs
+            - integration-test-parallel
+            - integration-test-configure
+            - integration-test-docs
           filters:
             branches:
               only: main
