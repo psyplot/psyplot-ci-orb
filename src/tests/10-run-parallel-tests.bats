@@ -28,7 +28,7 @@ setup() {
 @test 'setup conda env' {
 
     run-parallel-tests && \
-    [ -f "${TESTUPLOADDIR}/junit_ref.xml" ]
+    [ -f "${TESTUPLOADDIR}/junit.xml" ]
 }
 
 teardown() {
