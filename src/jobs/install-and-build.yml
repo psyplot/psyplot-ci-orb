@@ -91,6 +91,10 @@ parameters:
     description: Path to the conda environment file
     type: string
     default: ci/environment.yml
+  conda_env:
+    description: Name of the conda environment
+    type: string
+    default: test
 steps:
   - install:
       checkout: <<parameters.checkout>>
