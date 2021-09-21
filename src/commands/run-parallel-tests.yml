@@ -30,6 +30,7 @@ steps:
         TESTDIR: <<parameters.test_dir>>
         TESTUPLOADDIR: <<parameters.test_upload_dir>>
         PYTEST_ARGS: <<parameters.pytest_args>>
+        CONDADIR: <<parameters.condadir>>
       name: Run tests
       command: <<include(scripts/run-parallel-tests.sh)>>
   - store_test_results:
