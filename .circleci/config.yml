@@ -121,6 +121,7 @@ workflows:
           build_recipe: false
           source: src/tests/test-docs
           conda_environment: src/tests/test-docs/environment.yml
+          environment_file: src/tests/test-tests/environment.yml
           build_dir: src/tests/test-docs/_build/html
       - psyplot-ci-orb/test-parallel:
           name: parallel-tests
