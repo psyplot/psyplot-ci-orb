@@ -119,6 +119,7 @@ steps:
       condition: << parameters.setup_env >>
       steps:
         - setup-conda-env:
+            condadir: <<parameters.condadir>>
             recipe_dir: <<parameters.recipe_dir>>
             environment_file: <<parameters.environment_file>>
             conda_env: <<parameters.conda_env>>
