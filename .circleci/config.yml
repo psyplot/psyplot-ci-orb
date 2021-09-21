@@ -19,6 +19,9 @@ parameters:
     description: An internal flag to prevent integration test from running before a development version has been created.
     type: boolean
     default: false
+  unit-test-executor:
+    description: Executor for the unit tests. Can be default or macos-executor
+    default: default
   dev-orb-version:
     description: >
       The development version of the orb to test.
@@ -79,12 +82,9 @@ workflows:
           exclude: SC2148,SC2086
       # optional: Run BATS tests against your scripts
       - bats/run:
-          name: linux-tests
+          name: unit-tests
           path: ./src/tests
-      - bats/run:
-          name: macos-tests
-          path: ./src/tests
-          exec_environment: macos-executor
+          exec_environment: << pipeline.parameters.unit-test-executor >>
       # If you accept building open source forks, protect your secrects behind a restricted context.
       # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
       # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
@@ -93,8 +93,7 @@ workflows:
           requires:
             - orb-tools/lint
             - orb-tools/pack
-            - linux-tests
-            - macos-tests
+            - unit-tests
             - shellcheck/check
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
