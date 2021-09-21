@@ -122,10 +122,10 @@ workflows:
           source: src/tests/test-docs
           conda_environment: src/tests/test-docs/environment.yml
           build_dir: src/tests/test-docs/_build/html
-      - psyplot-ci-orb/test-parallel:
-          requires:
-            - psyplot-ci-orb/install-and-build
-          test_dir: src/tests/test-tests
+      # - psyplot-ci-orb/test-parallel:
+      #     requires:
+      #       - psyplot-ci-orb/install-and-build
+      #     test_dir: src/tests/test-tests
       - integration-test-1:
           requires:
             - psyplot-ci-orb/install-and-build
