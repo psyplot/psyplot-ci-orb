@@ -2,6 +2,10 @@ description: >
   Run tests in parallel using circleci
 
 parameters:
+  condadir:
+    description: "Install location for anaconda"
+    type: string
+    default: "~/miniconda3"
   conda_env:
     description: Name of the conda environment
     type: string

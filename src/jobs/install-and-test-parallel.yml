@@ -83,6 +83,14 @@ parameters:
     description: Additional command line arguments for conda-build
     type: string
     default: ""
+  environment_file:
+    description: Path to the conda environment file
+    type: string
+    default: ci/environment.yml
+  conda_env:
+    description: Name of the conda environment
+    type: string
+    default: test
   test_dir:
     description: Path to the test directory
     type: string
@@ -120,9 +128,11 @@ steps:
       steps:
         - setup-conda-env:
             recipe_dir: <<parameters.recipe_dir>>
-            recipe_append: <<parameters.recipe_append>>
+            environment_file: <<parameters.environment_file>>
+            conda_env: <<parameters.conda_env>>
         - run-parallel-tests:
             condadir: <<parameters.condadir>>
+            conda_env: <<parameters.conda_env>>
             test_dir: <<parameters.test_dir>>
             test_upload_dir: <<parameters.test_upload_dir>>
             pytest_args: <<parameters.pytest_args>>
