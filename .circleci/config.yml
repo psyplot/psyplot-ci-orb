@@ -119,28 +119,28 @@ workflows:
     when: << pipeline.parameters.run-integration-tests >>
     jobs:
       # Run any integration tests defined within the `jobs` key.
-      - psyplot-ci-orb/install-and-build:
-          name: integration-test-install
-          build_recipe: false
-          source: src/tests/test-docs
-          conda_environment: src/tests/test-docs/environment.yml
-          environment_file: src/tests/test-tests/environment.yml
-          build_dir: src/tests/test-docs/_build/html
-      - integration-test-configure:
-          requires:
-            - integration-test-install
-      - psyplot-ci-orb/test-parallel:
-          name: integration-test-parallel
-          requires:
-            - integration-test-install
-          test_dir: src/tests/test-tests
-      - psyplot-ci-orb/deploy-docs:
-          name: integration-test-docs
-          requires:
-            - integration-test-install
-          deploy_dir: src/tests/test-docs/_build/html
-          dry_run: true
-          fingerprint: ""
+      # - psyplot-ci-orb/install-and-build:
+      #     name: integration-test-install
+      #     build_recipe: false
+      #     source: src/tests/test-docs
+      #     conda_environment: src/tests/test-docs/environment.yml
+      #     environment_file: src/tests/test-tests/environment.yml
+      #     build_dir: src/tests/test-docs/_build/html
+      # - integration-test-configure:
+      #     requires:
+      #       - integration-test-install
+      # - psyplot-ci-orb/test-parallel:
+      #     name: integration-test-parallel
+      #     requires:
+      #       - integration-test-install
+      #     test_dir: src/tests/test-tests
+      # - psyplot-ci-orb/deploy-docs:
+      #     name: integration-test-docs
+      #     requires:
+      #       - integration-test-install
+      #     deploy_dir: src/tests/test-docs/_build/html
+      #     dry_run: true
+      #     fingerprint: ""
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
       # as that will determine whether a patch, minor or major
@@ -158,10 +158,10 @@ workflows:
           fail-if-semver-not-indicated: true
           publish-version-tag: true
           ssh-fingerprints: 77:a2:25:de:77:ea:3e:46:97:3c:cd:f7:6c:88:42:12
-          requires:
-            - integration-test-parallel
-            - integration-test-configure
-            - integration-test-docs
+          # requires:
+          #   - integration-test-parallel
+          #   - integration-test-configure
+          #   - integration-test-docs
           filters:
             branches:
               only: main
