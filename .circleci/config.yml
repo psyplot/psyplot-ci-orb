@@ -122,10 +122,11 @@ workflows:
           source: src/tests/test-docs
           conda_environment: src/tests/test-docs/environment.yml
           build_dir: src/tests/test-docs/_build/html
-      # - psyplot-ci-orb/test-parallel:
-      #     requires:
-      #       - psyplot-ci-orb/install-and-build
-      #     test_dir: src/tests/test-tests
+      - psyplot-ci-orb/test-parallel:
+          name: parallel-tests
+          requires:
+            - psyplot-ci-orb/install-and-build
+          test_dir: src/tests/test-tests
       - integration-test-1:
           requires:
             - psyplot-ci-orb/install-and-build
@@ -153,6 +154,7 @@ workflows:
           publish-version-tag: true
           ssh-fingerprints: 77:a2:25:de:77:ea:3e:46:97:3c:cd:f7:6c:88:42:12
           requires:
+            - parallel-tests
             - integration-test-1
             - psyplot-ci-orb/deploy-docs
           filters:
