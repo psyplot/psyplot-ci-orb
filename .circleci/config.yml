@@ -123,7 +123,6 @@ workflows:
           conda_environment: src/tests/test-docs/environment.yml
           build_dir: src/tests/test-docs/_build/html
       - psyplot-ci-orb/install-and-test-parallel:
-          parallelism: 4
           build_recipe: false
           source: src/tests/test-docs
           conda_environment: src/tests/test-docs/environment.yml
