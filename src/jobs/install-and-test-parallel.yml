@@ -3,6 +3,8 @@ description: >
 
 executor: <<parameters.exec_environment>>
 
+parallelism: <<parameters.parallelism>>
+
 parameters:
   exec_environment:
     default: default
@@ -10,6 +12,10 @@ parameters:
       Set a custom executor for your job testing environment. By defeault the
       machine image will be used.
     type: executor
+  parallelism:
+    description: How many parallel jobs to execute
+    type: integer
+    default: 4
   checkout:
     description: Do a checkout
     type: boolean
