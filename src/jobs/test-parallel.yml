@@ -1,0 +1,54 @@
+description: >
+  Install and build the conda package
+
+executor: <<parameters.exec_environment>>
+
+parallelism: <<parameters.parallelism>>
+
+parameters:
+  exec_environment:
+    default: default
+    description: >-
+      Set a custom executor for your job testing environment. By defeault the
+      machine image will be used.
+    type: executor
+  parallelism:
+    description: How many parallel jobs to execute
+    type: integer
+    default: 4
+  workspace:
+    description: A workspace to attach. Attach none if empty.
+    type: string
+    default: "~"
+  condadir:
+    description: Install location for anaconda. Must end with miniconda3!
+    type: string
+    default: "~/miniconda3"
+  conda_env:
+    description: Name of the conda environment
+    type: string
+    default: test
+  test_dir:
+    description: Path to the test directory
+    type: string
+    default: tests
+  test_upload_dir:
+    description: Path to the directory where to store XML test files
+    type: string
+    default: test-results
+  pytest_args:
+    description: Any arguments passed to the pytest call
+    type: string
+    default: ""
+steps:
+  - when:
+      condition: << parameters.workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace >>
+  - run-parallel-tests:
+      condadir: <<parameters.condadir>>
+      conda_env: <<parameters.conda_env>>
+      test_dir: <<parameters.test_dir>>
+      test_upload_dir: <<parameters.test_upload_dir>>
+      pytest_args: <<parameters.pytest_args>>

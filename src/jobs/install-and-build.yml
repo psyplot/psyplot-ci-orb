@@ -14,6 +14,10 @@ parameters:
     description: Do a checkout
     type: boolean
     default: true
+  workspace:
+    description: A workspace to attach. Attach none if empty.
+    type: string
+    default: "~"
   condadir:
     description: Install location for anaconda. Must end with miniconda3!
     type: string
@@ -71,6 +75,10 @@ parameters:
     description: Build the conda recipe
     type: boolean
     default: true
+  setup_env:
+    description: Setup a conda environment with the build package
+    type: boolean
+    default: true
   build_docs:
     description: Build the documentation
     type: boolean
@@ -79,6 +87,10 @@ parameters:
     description: Additional command line arguments for conda-build
     type: string
     default: ""
+  environment_file:
+    description: Path to the conda environment file
+    type: string
+    default: ci/environment.yml
 steps:
   - install:
       checkout: <<parameters.checkout>>
@@ -100,6 +112,13 @@ steps:
             python_version: <<parameters.python_version>>
             build_args: <<parameters.build_args>>
   - when:
+      condition: << parameters.setup_env >>
+      steps:
+        - setup-conda-env:
+            recipe_dir: <<parameters.recipe_dir>>
+            environment_file: <<parameters.environment_file>>
+            conda_env: <<parameters.conda_env>>
+  - when:
       condition: << parameters.build_docs >>
       steps:
         - build-docs:
@@ -107,6 +126,9 @@ steps:
             conda_environment: <<parameters.conda_environment>>
             source: <<parameters.source>>
             build_dir: <<parameters.build_dir>>
-  - persist_to_workspace:
-      root: "~"
-      paths: "./*"
+  - when:
+      condition: << parameters.workspace >>
+      steps:
+        - persist_to_workspace:
+            root: << parameters.workspace >>
+            paths: "./*"
