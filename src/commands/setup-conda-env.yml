@@ -1,11 +1,11 @@
 description: >
-  Install and build the conda package
+  Setup a conda environment
 
 parameters:
-  checkout:
-    description: Do a checkout
-    type: boolean
-    default: true
+  condadir:
+    description: "Install location for anaconda"
+    type: string
+    default: "~/miniconda3"
   environment_file:
     description: Path to the conda environment file
     type: string
@@ -14,10 +14,15 @@ parameters:
     description: Name of the conda environment
     type: string
     default: test
+  recipe_dir:
+    description: Path to the recipe to build relative to the project directory
+    type: string
+    default: ci/conda-recipe
 steps:
   - run:
       environment:
         CONDAENV_FILE: <<parameters.environment_file>>
         CONDAENV_NAME: <<parameters.conda_env>>
+        RECIPEDIR: <<parameters.recipe_dir>>
       name: Create conda environment
       command: <<include(scripts/setup-conda-env.sh)>>

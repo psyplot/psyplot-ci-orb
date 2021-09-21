@@ -21,15 +21,22 @@ EOF
     export CONDAENV_NAME="test_env"
 
     source ./src/scripts/setup-conda-env.sh
+    setup-conda-env
+
+    export TESTDIR=./src/tests/test-tests
+    export TESTUPLOADDIR=${BATS_TMPDIR}/test_upload_dir
+
+    source ./src/scripts/run-parallel-tests.sh
 }
 
 @test 'setup conda env' {
 
-    setup-conda-env && \
-    [ -f "${CONDADIR}/envs/test_env/bin/python" ]
+    run-parallel-tests && \
+    [ -f "${TESTUPLOADDIR}/junit_ref.xml" ]
 }
 
 teardown() {
+    rm -rf ${BATS_TMPDIR}/test_upload_dir
     rm -rf ${BATS_TMPDIR}/test-feedstock
     conda env remove -y -n test_env
 }
