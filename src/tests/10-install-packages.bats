@@ -19,7 +19,7 @@ setup() {
     source ./src/scripts/setup-conda-env.sh
     setup-conda-env
 
-    export EXTRA_PACKAGES="docrep"
+    export EXTRA_PACKAGES="sphinx"
     source ./src/scripts/install-packages.sh
 }
 
