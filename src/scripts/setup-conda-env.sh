@@ -3,7 +3,7 @@ setup-conda-env() {
     CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
-    if [[ "${CONDAENV_FILE}" != "" ]]; then
+    if [[ "${CONDAENV_FILE}" != "" ]] && [[ -e "${CONDAENV_FILE}" ]]; then
       mamba env create -n "${CONDAENV_NAME}" -f "${CONDAENV_FILE}"
     else
         PKG=$(show-package-name "${RECIPEDIR}")

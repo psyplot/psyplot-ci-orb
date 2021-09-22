@@ -1,0 +1,24 @@
+description: >
+  Run tests in parallel using circleci
+
+parameters:
+  condadir:
+    description: "Install location for anaconda"
+    type: string
+    default: "~/miniconda3"
+  conda_env:
+    description: Name of the conda environment
+    type: string
+    default: test
+  packages:
+    description: Extra packages to install
+    type: string
+
+steps:
+  - run:
+      environment:
+        CONDAENV_NAME: <<parameters.conda_env>>
+        CONDADIR: <<parameters.condadir>>
+        EXTRA_PACKAGES: <<parameters.packages>>
+      name: Run tests
+      command: <<include(scripts/install-packages.sh)>>
