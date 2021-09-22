@@ -29,3 +29,7 @@ steps:
         BUILD_DIR: <<parameters.build_dir>>
       name: Build documentation
       command: <<include(scripts/build-docs.sh)>>
+  - store_artifacts:
+      path: <<parameters.build_dir>>
+      destination: docs
+
