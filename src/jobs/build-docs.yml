@@ -30,7 +30,16 @@ parameters:
     description: Directory where to build the docs
     type: string
     default: docs/_build/html
+  workspace:
+    description: A workspace to attach. Attach none if empty.
+    type: string
+    default: "~"
 steps:
+  - when:
+      condition: << parameters.workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace >>
   - build-docs:
       condadir: <<parameters.condadir>>
       conda_environment: <<parameters.conda_environment>>
