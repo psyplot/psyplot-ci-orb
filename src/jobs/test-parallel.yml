@@ -40,12 +40,23 @@ parameters:
     description: Any arguments passed to the pytest call
     type: string
     default: ""
+  packages:
+    description: Extra packages to install
+    type: string
+    default: ""
 steps:
   - when:
       condition: << parameters.workspace >>
       steps:
         - attach_workspace:
             at: << parameters.workspace >>
+  - when:
+      condition: <<parameters.packages>>
+      steps:
+        - install-packages:
+            condadir: <<parameters.condadir>>
+            conda_env: <<parameters.conda_env>>
+            packages: <<parameters.packages>>
   - run-parallel-tests:
       condadir: <<parameters.condadir>>
       conda_env: <<parameters.conda_env>>

@@ -18,6 +18,10 @@ parameters:
     description: Path to the recipe to build relative to the project directory
     type: string
     default: ci/conda-recipe
+  packages:
+    description: Extra packages to install
+    type: string
+    default: ""
 steps:
   - run:
       environment:
@@ -25,5 +29,6 @@ steps:
         CONDAENV_NAME: <<parameters.conda_env>>
         RECIPEDIR: <<parameters.recipe_dir>>
         CONDADIR: <<parameters.condadir>>
+        EXTRA_PACKAGES: <<parameters.packages>>
       name: Create conda environment
       command: <<include(scripts/setup-conda-env.sh)>>
