@@ -19,13 +19,13 @@ setup() {
     source ./src/scripts/setup-conda-env.sh
     setup-conda-env
 
-    export EXTRA_PACKAGES="sphinx"
+    export EXTRA_PACKAGES="docrep"
     source ./src/scripts/install-packages.sh
 }
 
 @test 'install extra packages' {
 
-    install-packages && python -c "import docrep"
+    install-packages && "${CONDADIR}/envs/test_env/bin/python" -c "import docrep"
 }
 
 teardown() {
