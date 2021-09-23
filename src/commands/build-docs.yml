@@ -32,4 +32,3 @@ steps:
   - store_artifacts:
       path: <<parameters.build_dir>>
       destination: docs
-
