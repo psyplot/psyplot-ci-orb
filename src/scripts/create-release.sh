@@ -13,7 +13,7 @@ EOF
         -H "Authorization: Token ${GITHUB_TOKEN}" \
         -H "Content-Type: application/json" \
         -H "Accept: application/vnd.github.v3+json" \
-        https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases \
+        "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases" \
         -d @release_body.json
 }
 

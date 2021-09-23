@@ -1,10 +1,10 @@
 deploy-docs() {
     # deploy docs generated with sphinx to gh-pages
 
-    touch ${DEPLOY_DIR}/.nojekyll
+    touch "${DEPLOY_DIR}"/.nojekyll
 
-    mkdir -p ${DEPLOY_DIR}/.circleci
-    cat > ${DEPLOY_DIR}/.circleci/config.yml << EOF
+    mkdir -p "${DEPLOY_DIR}"/.circleci
+    cat > "${DEPLOY_DIR}"/.circleci/config.yml << EOF
 version: 2.1
 
 jobs:
@@ -40,10 +40,10 @@ EOF
     gh-pages \
         ${ARGS} \
         --dotfiles \
-        --branch ${TARGET_BRANCH} \
+        --branch "${TARGET_BRANCH}" \
         --user "ci-build <ci-build@psyplot.org>" \
         --message "[skip ci] CircleCi Build ${CIRCLE_BUILD_NUM}, commit ${CIRCLE_SHA1}" \
-        --dist ${DEPLOY_DIR}
+        --dist "${DEPLOY_DIR}"
 }
 
 # Will not run if sourced for bats-core tests.

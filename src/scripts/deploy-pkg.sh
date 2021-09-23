@@ -10,7 +10,7 @@ deploy-pkg() {
     fi
     conda install anaconda-client conda-build
     echo "Installing psyplot-ci-orb"
-    pip install -i https://pypi.anaconda.org/psyplot/simple --no-deps psyplot-ci-orb${VERSION}
+    pip install -i https://pypi.anaconda.org/psyplot/simple --no-deps psyplot-ci-orb"${VERSION}"
 
     if [ ${LABEL} != "" ]; then
         ARGS="--label ${LABEL}"
@@ -20,11 +20,11 @@ deploy-pkg() {
         ARGS="${ARGS} --label ${CIRCLE_BRANCH}"
     fi
 
-    if [ ${TOKEN} != "" ]; then
+    if [ "${TOKEN}" != "" ]; then
         ARGS="${ARGS} --token ${TOKEN}"
     fi
 
-    deploy-conda-recipe ${RECIPEDIR} ${ARGS} ${EXTRA_OPTS}
+    deploy-conda-recipe "${RECIPEDIR}" ${ARGS} ${EXTRA_OPTS}
 }
 
 # Will not run if sourced for bats-core tests.
