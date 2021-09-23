@@ -2,6 +2,7 @@ install-packages() {
 
     CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
+    # shellcheck disable=SC2086
     mamba install -n  "${CONDAENV_NAME}" ${EXTRA_PACKAGES}
 
 }

@@ -12,7 +12,7 @@ deploy-pkg() {
     echo "Installing psyplot-ci-orb"
     pip install -i https://pypi.anaconda.org/psyplot/simple --no-deps psyplot-ci-orb"${VERSION}"
 
-    if [ ${LABEL} != "" ]; then
+    if [ "${LABEL}" != "" ]; then
         ARGS="--label ${LABEL}"
     fi
 
@@ -24,6 +24,7 @@ deploy-pkg() {
         ARGS="${ARGS} --token ${TOKEN}"
     fi
 
+    # shellcheck disable=SC2086
     deploy-conda-recipe "${RECIPEDIR}" ${ARGS} ${EXTRA_OPTS}
 }
 

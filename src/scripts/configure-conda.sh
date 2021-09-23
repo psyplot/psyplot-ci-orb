@@ -17,6 +17,7 @@ configure-conda() {
         fi
     fi
 
+    # shellcheck disable=SC2086
     conda install -c conda-forge ${PACKAGES}
 }
 

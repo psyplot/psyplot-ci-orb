@@ -9,7 +9,10 @@ run-parallel-tests() {
     echo "${TESTS}"
     mkdir -p "${TESTUPLOADDIR}"
     pytest -h || pip install pytest pytest-cov
+
+    # shellcheck disable=SC2086
     pytest -xv --junitxml="${TESTUPLOADDIR}"/junit.xml ${PYTEST_ARGS} ${TESTS}
+
     conda deactivate
 
 }
