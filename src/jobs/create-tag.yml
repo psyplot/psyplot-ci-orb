@@ -1,0 +1,30 @@
+description: >
+  Create a new tag in the git repository
+
+parameters:
+  tag-prefix:
+    default: v
+    type: string
+    description: The prefix to use for the tag
+  publish-version-tag:
+    type: boolean
+    description: >
+      Push a git tag describing the release that was just published? If `true`,
+      make sure to pass SSH fingerprints, as well
+  ssh-fingerprints:
+    default: ""
+    type: string
+    description: The fingerprint of the SSH key to use for pushing to github
+
+steps:
+  - create-tag:
+      tag-prefix: <<parameters.tag-prefix>>
+  - when:
+      condition: <<parameters.publish-version-tag>>
+      steps:
+        - add_ssh_keys:
+          fingerprints:
+            - <<parameters.ssh-fingerprints>>
+        - run:
+            name: Push tag to remote
+            command: git push origin "${NEW_TAG}"
