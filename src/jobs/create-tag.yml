@@ -23,6 +23,21 @@ parameters:
     default: ""
     type: string
     description: The fingerprint of the SSH key to use for pushing to github
+  create-release:
+    type: boolean
+    description: >
+      Publish the created tag as release on github
+  github-token:
+    default: ""
+    type: string
+    description: >
+      The Github API Token to use. If not set, we use the GITHUB_TOKEN
+      environment variable
+  draft-releaase:
+    default: true
+    type: boolean
+    description: >
+      Whether to create the release as a draft or publish it directly.
 
 steps:
   - create-tag:
@@ -36,3 +51,9 @@ steps:
         - run:
             name: Push tag to remote
             command: git push origin "${NEW_TAG}"
+  - when:
+      condition: <<parameters.publish-release>>
+      steps:
+        - create-release:
+            token: << parameters.github-token >>
+            draft: << parameters.draft >>
