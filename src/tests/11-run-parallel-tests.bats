@@ -25,7 +25,7 @@ setup() {
     source ./src/scripts/run-parallel-tests.sh
 }
 
-@test 'setup conda env' {
+@test 'run parallel tests' {
 
     run-parallel-tests && \
     [ -f "${TESTUPLOADDIR}/junit.xml" ]
