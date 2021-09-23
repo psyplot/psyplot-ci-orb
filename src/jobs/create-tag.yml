@@ -10,6 +10,10 @@ parameters:
       Set a custom executor for your job testing environment. By defeault the
       machine image will be used. Use "macos" for building on OS X.
     type: executor
+  workspace:
+    description: A workspace to attach. Attach none if empty.
+    type: string
+    default: "~"
   tag-prefix:
     default: v
     type: string
@@ -40,6 +44,11 @@ parameters:
       Whether to create the release as a draft or publish it directly.
 
 steps:
+  - when:
+      condition: << parameters.workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace >>
   - create-tag:
       tag-prefix: <<parameters.tag-prefix>>
   - when:
