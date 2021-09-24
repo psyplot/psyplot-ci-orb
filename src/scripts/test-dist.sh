@@ -1,14 +1,16 @@
-build-recipe() {
+test-dist() {
     CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
-    # shellcheck disable=SC2086
-    mamba build "${RECIPEDIR}" --python "${PYTHON_VERSION}" ${EXTRA_ARGS}
+    which twine || pip install twine
+
+    python setup.py sdist
+    twine check dist/*.tar.gz
 }
 
 # Will not run if sourced for bats-core tests.
 # View src/tests for more information.
 ORB_TEST_ENV="bats-core"
 if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
-    build-recipe
+    test-dist
 fi

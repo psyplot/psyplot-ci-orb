@@ -1,0 +1,75 @@
+description: >
+  Create a new tag in the git repository
+
+executor: <<parameters.exec_environment>>
+
+parameters:
+  exec_environment:
+    default: default
+    description: >-
+      Set a custom executor for your job testing environment. By defeault the
+      machine image will be used. Use "macos" for building on OS X.
+    type: executor
+  workspace:
+    description: A workspace to attach. Attach none if empty.
+    type: string
+    default: "~"
+  tag-prefix:
+    default: v
+    type: string
+    description: The prefix to use for the tag
+  publish-version-tag:
+    type: boolean
+    description: >
+      Push a git tag describing the release that was just published? If `true`,
+      make sure to pass SSH fingerprints, as well
+  ssh-fingerprints:
+    default: ""
+    type: string
+    description: The fingerprint of the SSH key to use for pushing to github
+  publish-release:
+    type: boolean
+    description: >
+      Publish the created tag as release on github
+  github-token:
+    default: ""
+    type: string
+    description: >
+      The Github API Token to use. If not set, we use the GITHUB_TOKEN
+      environment variable
+  draft-release:
+    default: true
+    type: boolean
+    description: >
+      Whether to create the release as a draft or publish it directly.
+
+steps:
+  - when:
+      condition: << parameters.workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace >>
+  - configure-git
+  - create-tag:
+      tag-prefix: <<parameters.tag-prefix>>
+  - when:
+      condition: <<parameters.publish-version-tag>>
+      steps:
+        - add_ssh_keys:
+            fingerprints:
+              - <<parameters.ssh-fingerprints>>
+        - run:
+            name: Push tag to remote
+            command: git push origin "${NEW_TAG}"
+  - when:
+      condition: <<parameters.publish-release>>
+      steps:
+        - create-release:
+            token: << parameters.github-token >>
+            draft: << parameters.draft-release >>
+  - when:
+      condition: << parameters.workspace >>
+      steps:
+        - persist_to_workspace:
+            root: << parameters.workspace >>
+            paths: "./*"

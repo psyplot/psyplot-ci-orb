@@ -1,0 +1,21 @@
+description: >
+  Create a new tag in the git repository
+
+parameters:
+  token:
+    default: ""
+    type: string
+    description: >-
+      The Github API Token to use. If not set, we use the GITHUB_TOKEN
+      environment variable
+  draft:
+    default: true
+    type: boolean
+    description: Whether to create a draft release or not.
+steps:
+  - run:
+      name: Create release on Github
+      environment:
+        TOKEN: << parameters.token >>
+        DRAFT: << parameters.draft >>
+      command: <<include(scripts/create-release.sh)>>

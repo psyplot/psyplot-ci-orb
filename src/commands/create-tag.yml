@@ -1,0 +1,15 @@
+description: >
+  Create a new tag in the git repository
+
+parameters:
+  tag-prefix:
+    default: v
+    type: string
+    description: The prefix to use for the tag
+
+steps:
+  - run:
+      name: Create git tag
+      environment:
+        TAG_PREFIX: <<parameters.tag-prefix>>
+      command: <<include(scripts/create-tag.sh)>>

@@ -7,7 +7,7 @@ setup-conda-env() {
       mamba env create -n "${CONDAENV_NAME}" -f "${CONDAENV_FILE}"
     else
         PKG=$(show-package-name "${RECIPEDIR}")
-        mamba create -n "${CONDAENV_NAME}" -c local ${PKG} pytest pytest-cov
+        mamba create -n "${CONDAENV_NAME}" -c local "${PKG}" pytest pytest-cov
     fi
 
 }

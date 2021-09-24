@@ -87,6 +87,10 @@ parameters:
     description: Additional command line arguments for conda-build
     type: string
     default: ""
+  test_dist:
+    description: Build and test the python package with setuptools and twine
+    type: boolean
+    default: true
   environment_file:
     description: Path to the conda environment file
     type: string
@@ -104,6 +108,11 @@ steps:
       default_branch: <<parameters.default_branch>>
       channels: <<parameters.channels>>
       packages: <<parameters.packages>>
+  - when:
+      condition: << parameters.test_dist >>
+      steps:
+        - test-dist:
+            condadir: <<parameters.condadir>>
   - when:
       condition: << parameters.build_recipe >>
       steps:

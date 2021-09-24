@@ -2,9 +2,9 @@ build-docs() {
     CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
-    if [ ${CONDAENV} != "" ]; then
-        if [ -f ${CONDAENV} ]; then
-            mamba env create -n docs -f ${CONDAENV}
+    if [ "${CONDAENV}" != "" ]; then
+        if [ -f "${CONDAENV}" ]; then
+            mamba env create -n docs -f "${CONDAENV}"
             conda activate docs
         fi
     fi

@@ -1,0 +1,41 @@
+description: "Test the dist for pypi via twine check"
+
+executor: <<parameters.exec_environment>>
+
+parameters:
+  exec_environment:
+    default: default
+    description: >-
+      Set a custom executor for your job testing environment. By defeault the
+      machine image will be used. Use "macos" for building on OS X.
+    type: executor
+  condadir:
+    description: "Install location for anaconda"
+    type: string
+    default: "~/miniconda3"
+  pypi_user:
+    description: >
+      User name for pypi upload. We recomment to set this via the
+      TWINE_USERNAME environment variable.
+    type: string
+    default: ""
+  pypi_password:
+    description: >
+      User password for pypi upload. We recomment to set this via the
+      TWINE_PASSWORD environment variable in a context.
+    type: string
+    default: ""
+  workspace:
+    description: A workspace to attach. Attach none if empty.
+    type: string
+    default: "~"
+steps:
+  - when:
+      condition: << parameters.workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace >>
+  - deploy-pypi:
+      condadir: <<parameters.condadir>>
+      pypi_user: << parameters.pypi_user >>
+      pypi_password: << parameters.pypi_password >>
