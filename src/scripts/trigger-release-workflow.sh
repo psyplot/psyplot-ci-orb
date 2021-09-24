@@ -24,11 +24,12 @@ Result() {
     # shellcheck disable=SC2002
     CURL_RESULT=$(cat /tmp/curl-result.txt)
     if [[ $(echo "$CURL_RESULT" | jq -r .message) == "Not Found" || $(echo "$CURL_RESULT" | jq -r .message) == "Permission denied" || $(echo "$CURL_RESULT" | jq -r .message) == "Project not found" ]]; then
-        echo "Was unable to trigger integration test workflow. API response:"
-        cat /tmp/curl-result.txt | jq -r .message
+        # shellcheck disable=SC2002
+        echo "Was unable to trigger integration test workflow. API response: $(cat /tmp/curl-result.txt | jq -r .message)"
         exit 1
     else
         echo "Pipeline triggered!"
+        # shellcheck disable=SC2002
         echo "https://app.circleci.com/jobs/${VCS_TYPE}/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/$(cat /tmp/curl-result.txt | jq -r .number)"
     fi
 }
