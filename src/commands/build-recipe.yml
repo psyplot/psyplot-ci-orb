@@ -25,3 +25,6 @@ steps:
         EXTRA_ARGS: <<parameters.build_args>>
       name: Build recipe
       command: <<include(scripts/build-recipe.sh)>>
+  - store_artifacts:
+      path: <<parameters.condadir>>/conda-bld/*/*.tar.bz2
+      destination: conda-bld

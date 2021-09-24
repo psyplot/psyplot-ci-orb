@@ -10,3 +10,6 @@ steps:
         CONDADIR: <<parameters.condadir>>
       name: Test the dist
       command: <<include(scripts/test-dist.sh)>>
+  - store_artifacts:
+      path: dist/*.tar.gz
+      destination: dist
