@@ -1,0 +1,7 @@
+description: >
+  Check whether the commit message suggests a new release and if so, cancel
+  the workflow.
+steps:
+  - run:
+      name: Check commit message
+      command: <<include(scripts/check-for-release.sh)>>
