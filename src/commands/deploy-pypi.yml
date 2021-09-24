@@ -17,7 +17,10 @@ parameters:
     type: string
     default: ""
 steps:
-  - deploy-pypi:
-      condadir: <<parameters.condadir>>
-      pypi_user: << parameters.pypi_user >>
-      pypi_password: << parameters.pypi_password >>
+  - run:
+      environment:
+        CONDADIR: <<parameters.condadir>>
+        PYPI_USER: << parameters.pypi_user >>
+        PYPI_PASSWORD: << parameters.pypi_password >>
+      name: Deploy the python package to pypi
+      command: <<include(scripts/deploy-pypi.sh)>>
