@@ -10,6 +10,7 @@ Setup() {
 
 BuildParams() {
     PARAM_MAP=$(eval echo "${PARAM_MAP}")
+    # shellcheck disable=SC2016
     REQUEST_PARAMS='{\"branch\": \"$CIRCLE_BRANCH\", \"parameters\": $PARAM_MAP}'
     eval echo "${REQUEST_PARAMS}" > pipelineparams.json
 }
@@ -20,8 +21,10 @@ DoCurl() {
 }
 
 Result() {
+    # shellcheck disable=SC2002
     CURL_RESULT=$(cat /tmp/curl-result.txt)
     if [[ $(echo "$CURL_RESULT" | jq -r .message) == "Not Found" || $(echo "$CURL_RESULT" | jq -r .message) == "Permission denied" || $(echo "$CURL_RESULT" | jq -r .message) == "Project not found" ]]; then
+        # shellcheck disable=SC2002
         echo "Was unable to trigger integration test workflow. API response: $(cat /tmp/curl-result.txt | jq -r .message)"
         exit 1
     else
