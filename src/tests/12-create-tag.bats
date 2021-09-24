@@ -12,6 +12,10 @@ setup() {
     git -C "${WORKDIR}" commit -m "Add dummy file"
     git -C "${WORKDIR}" tag -a v0.0.1 -m "Test commit"
 
+    export GIT_USER_NAME=test-user
+    export GIT_EMAIL=test@example.com
+
+    source ./src/scripts/configure-git.sh
 
     source ./src/scripts/create-tag.sh
 }

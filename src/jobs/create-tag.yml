@@ -49,6 +49,7 @@ steps:
       steps:
         - attach_workspace:
             at: << parameters.workspace >>
+  - configure-git
   - create-tag:
       tag-prefix: <<parameters.tag-prefix>>
   - when:
@@ -66,3 +67,9 @@ steps:
         - create-release:
             token: << parameters.github-token >>
             draft: << parameters.draft >>
+  - when:
+      condition: << parameters.workspace >>
+      steps:
+        - persist_to_workspace:
+            root: << parameters.workspace >>
+            paths: "./*"
