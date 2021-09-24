@@ -1,14 +1,5 @@
 description: "Upload the python package to pypi.io"
-
-executor: <<parameters.exec_environment>>
-
 parameters:
-  exec_environment:
-    default: default
-    description: >-
-      Set a custom executor for your job testing environment. By defeault the
-      machine image will be used. Use "macos" for building on OS X.
-    type: executor
   condadir:
     description: "Install location for anaconda"
     type: string
