@@ -12,16 +12,9 @@ parameters:
     type: string
     default: ""
 
-  user-email:
-    description: >
-      Override git user email.
-    type: string
-    default: ""
-
 steps:
   - run:
       name: git config
       environment:
         GIT_USER_NAME: << parameters.user-name >>
-        GIT_EMAIL: << parameters.user-email >>
       command: <<include(scripts/configure-git.sh)>>
