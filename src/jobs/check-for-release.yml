@@ -1,7 +1,0 @@
-description: >
-  Check for a new release
-
-machine: true
-
-steps:
-  - check-for-release

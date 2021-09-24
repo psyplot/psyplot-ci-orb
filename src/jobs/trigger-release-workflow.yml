@@ -1,0 +1,28 @@
+description: >
+  Trigger a new release workflow.
+docker:
+  - image: cimg/base:edge
+
+parameters:
+  checkout:
+    type: boolean
+    default: true
+    description: >
+      Checkout as a first step? Default is true
+  pipeline-param-map:
+    type: string
+    default: '{"deploy-release": true}'
+    description: >
+      Map of pipeline parameters that the new pipeline will be invoked with.
+      Make use of this to target the release workflow that should be triggered
+      and exclude other workflows from being triggered.
+  token-variable:
+    type: env_var_name
+    default: CIRCLE_TOKEN
+    description: >
+      Name of environment variable containing your personal CircleCI API token
+steps:
+  - trigger-release-workflow:
+      checkout: <<parameters.checkout>>
+      pipeline-param-map: '<<parameters.pipeline-param-map>>'
+      token-variable: <<parameters.token-variable>>
