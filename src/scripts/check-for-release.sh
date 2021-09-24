@@ -2,15 +2,13 @@
 StopWorkflow() {
     echo "Stopping workflow."
     curl --request POST \
-    --url https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel \
+    --url https://circleci.com/api/v2/workflow/"${CIRCLE_WORKFLOW_ID}"/cancel \
     --header "Circle-Token: ${CIRCLE_TOKEN}"
 }
 
 check-for-release() {
     COMMIT_SUBJECT=$(git log -1 --pretty=%s)
-    RELEASE_MESSAGE="$(git log -1 --pretty=%b)"
     SEMVER_INCREMENT=$(echo "${COMMIT_SUBJECT}" | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p')
-
 
     if [ -z "${SEMVER_INCREMENT}" ]; then
         echo "No new version specified. Please indicate [semver:major/minor/patch] to create a new release"
