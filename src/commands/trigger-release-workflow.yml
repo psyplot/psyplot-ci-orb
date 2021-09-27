@@ -10,7 +10,7 @@ parameters:
       Checkout as a first step? Default is true
   pipeline-param-map:
     type: string
-    default: '{"deploy-release": true}'
+    default: '{\"deploy-release\": true}'
     description: >
       Map of pipeline parameters that the new pipeline will be invoked with.
       Make use of this to target the release workflow that should be triggered
