@@ -122,7 +122,7 @@ def main(parser_args=None):
                     user,
                     package,
                     version,
-                    dependencies=[],
+                    requirements=[],
                     announce=None,
                     release_attrs=release_attrs,
                 )
