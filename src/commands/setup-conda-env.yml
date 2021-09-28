@@ -22,6 +22,12 @@ parameters:
     description: Extra packages to install
     type: string
     default: ""
+  python_version:
+    description: >-
+      Python version to use. This does only have an effect if we do not use an
+      environment file.
+    type: string
+    default: "3.8"
 steps:
   - run:
       environment:
@@ -29,6 +35,7 @@ steps:
         CONDAENV_NAME: <<parameters.conda_env>>
         RECIPEDIR: <<parameters.recipe_dir>>
         CONDADIR: <<parameters.condadir>>
+        PYTHON_VERSION: <<parameters.python_version>>
         EXTRA_PACKAGES: <<parameters.packages>>
       name: Create conda environment
       command: <<include(scripts/setup-conda-env.sh)>>

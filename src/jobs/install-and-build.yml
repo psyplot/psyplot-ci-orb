@@ -137,6 +137,7 @@ steps:
             condadir: <<parameters.condadir>>
             recipe_dir: <<parameters.recipe_dir>>
             environment_file: <<parameters.environment_file>>
+            python_version: <<parameters.python_version>>
             conda_env: <<parameters.conda_env>>
   - when:
       condition: << parameters.build_docs >>
