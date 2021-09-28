@@ -44,6 +44,14 @@ parameters:
     description: Extra packages to install
     type: string
     default: ""
+  build_refs:
+    description: Build reference figures
+    type: boolean
+    default: false
+  codecov:
+    description: Upload test results to codecov.io
+    type: boolean
+    default: true
 steps:
   - when:
       condition: << parameters.workspace >>
@@ -63,3 +71,8 @@ steps:
       test_dir: <<parameters.test_dir>>
       test_upload_dir: <<parameters.test_upload_dir>>
       pytest_args: <<parameters.pytest_args>>
+      build_refs: <<parameters.build_refs>>
+  - when:
+      condition: <<parameters.codecov>>
+      steps:
+        - codecov

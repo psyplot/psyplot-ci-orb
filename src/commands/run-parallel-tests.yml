@@ -22,6 +22,10 @@ parameters:
     description: Any arguments passed to the pytest call
     type: string
     default: ""
+  build_refs:
+    description: Build reference figures
+    type: boolean
+    default: false
 
 steps:
   - run:
@@ -31,6 +35,7 @@ steps:
         TESTUPLOADDIR: <<parameters.test_upload_dir>>
         PYTEST_ARGS: <<parameters.pytest_args>>
         CONDADIR: <<parameters.condadir>>
+        BUILDREFS: <<#parameters.build_refs>>true<</parameters.build_refs>>
       name: Run tests
       command: <<include(scripts/run-parallel-tests.sh)>>
   - store_test_results:

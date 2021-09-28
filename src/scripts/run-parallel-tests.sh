@@ -11,7 +11,11 @@ run-parallel-tests() {
     pytest -h || pip install pytest pytest-cov
 
     # shellcheck disable=SC2086
-    pytest -xv --junitxml="${TESTUPLOADDIR}"/junit.xml ${PYTEST_ARGS} ${TESTS}
+
+    if [ "${BUILD_REFS}" ]; then
+        pytest -xv --ref --junitxml="${TESTUPLOADDIR}"/junit.xml ${PYTEST_ARGS} ${TESTS}
+    fi
+    pytest -xv --cov-append --junitxml="${TESTUPLOADDIR}"/junit.xml ${PYTEST_ARGS} ${TESTS}
 
     conda deactivate
 
