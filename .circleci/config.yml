@@ -26,6 +26,11 @@ parameters:
     description: Executor for the unit tests. Can be default or macos-executor
     type: string
     default: default
+  build_output:
+    description: The output directory for the build
+    type: enum
+    default: linux-64
+    enum: ["linux-64", "osx-64"]
   dev-orb-version:
     description: >
       The development version of the orb to test.
@@ -132,6 +137,7 @@ workflows:
           conda_environment: src/tests/test-docs/environment.yml
           environment_file: src/tests/test-tests/environment.yml
           build_dir: src/tests/test-docs/_build/html
+          build_output: <<pipeline.parameters.build_output>>
       - integration-test-configure:
           requires:
             - integration-test-install

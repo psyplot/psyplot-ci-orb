@@ -1,0 +1,76 @@
+# codecov upload command copied from the official codecov@3.1.0 orb at
+# https://github.com/codecov/codecov-circleci-orb/blob/7643d31253098d77928eefc790d85d4ceef2e77b/src/%40orb.yml
+parameters:
+  file:
+    description: Path to the code coverage data file to upload.
+    type: string
+    default: ""
+  flags:
+    description: Flag the upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
+    type: string
+    default: ""
+  token:
+    description: Set the private repository token as the value of the variable CODECOV_TOKEN using CircleCI Environment Variables.
+    type: env_var_name
+    default: CODECOV_TOKEN
+  upload_name:
+    description: Custom defined name of the upload. Visible in Codecov UI
+    type: string
+    default: ${CIRCLE_BUILD_NUM}
+  validate:
+    description: Validate the uploader before uploading the codecov result.
+    type: boolean
+    default: true
+  when:
+    description: When should this step run?
+    type: string
+    default: "always"
+  xtra_args:
+    description: Any extra flags as provided by the bash uploader (e.g. `-v -Z`).
+    type: string
+    default: ""
+  version:
+    description: Which version of the Codecov Uploader to use (defaults to 'latest')
+    type: string
+    default: "latest"
+steps:
+  - run:
+      name: Download Codecov Uploader
+      command: |
+        family=$(uname -s | tr '[:upper:]' '[:lower:]')
+        os="windows"
+        [[ $family == "darwin" ]] && os="macos"
+        [[ $family == "linux" ]] && os="linux"
+        echo "Detected ${os}"
+        echo "export os=${os}" >> $BASH_ENV
+        filename="codecov"
+        [[ $os == "windows" ]] && filename+=".exe"
+        echo "export filename=${filename}" >> $BASH_ENV
+        [[ $os == "macos" ]] && brew install gpg
+        curl -Os "https://uploader.codecov.io/<< parameters.version >>/${os}/${filename}"
+      when: << parameters.when >>
+  - when:
+      condition: << parameters.validate >>
+      steps:
+        - run:
+            name: Validate Codecov Uploader
+            command: |
+              curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --import # One-time step
+              curl -Os "https://uploader.codecov.io/<< parameters.version >>/${os}/${filename}.SHA256SUM"
+              curl -Os "https://uploader.codecov.io/<< parameters.version >>/${os}/${filename}.SHA256SUM.sig"
+              gpg --verify $filename.SHA256SUM.sig $filename.SHA256SUM
+              shasum -a 256 -c $filename.SHA256SUM || sha256sum -c $filename.SHA256SUM
+  - run:
+      name: Upload Coverage Results
+      command: |
+        chmod +x $filename
+        args=()
+        [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
+        [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
+        curl -H "Accept: application/json" "https://uploader.codecov.io/${os}/<< parameters.version >>" | grep -o '\"version\":\"v[0-9\.\_]\+\"' | head -1
+        ./$filename \
+          -Q "codecov-circleci-orb-3.1.0" \
+          -t "${<< parameters.token >>}" \
+          -n "<< parameters.upload_name >>" \
+          -F "<< parameters.flags >>" \
+          ${args[@]}
