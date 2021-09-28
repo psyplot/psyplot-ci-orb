@@ -18,7 +18,12 @@ configure-conda() {
     fi
 
     # shellcheck disable=SC2086
-    conda install -c conda-forge ${PACKAGES}
+    conda install -c conda-forge anaconda-client conda-build ${PACKAGES}
+
+    if [ "${ORB_VERSION}" != "" ]; then
+        VERSION="===${ORB_VERSION}"
+    fi
+    pip install -i https://pypi.anaconda.org/psyplot/simple --no-deps psyplot-ci-orb"${VERSION}" || pip install -i https://pypi.anaconda.org/psyplot/simple --no-deps psyplot-ci-orb
 }
 
 # Will not run if sourced for bats-core tests.

@@ -69,8 +69,9 @@ jobs:
             VERSION=`deploy-conda-recipe -V`
             TAG=`git describe`
             if [ "${TAG:1}" == "${VERSION}" ]; then
-              # make sure the version is in the deploy-pkg.yml
+              # make sure the version is in the deploy-pkg.yml and configure-conda.yml
               [ "$(grep ${VERSION} src/commands/deploy-pkg.yml)" != "" ]
+              [ "$(grep ${VERSION} src/commands/configure-conda.yml)" != "" ]
             fi
       - run:
           name: deploy python package
