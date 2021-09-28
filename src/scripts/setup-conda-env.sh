@@ -5,9 +5,14 @@ setup-conda-env() {
 
     if [[ "${CONDAENV_FILE}" != "" ]] && [[ -e "${CONDAENV_FILE}" ]]; then
       mamba env create -n "${CONDAENV_NAME}" -f "${CONDAENV_FILE}"
+      if [[ "${EXTRA_PACKAGES}" != "" ]]; then
+        # shellcheck disable=SC2086
+        mamba install -n "${CONDAENV_NAME}" ${EXTRA_PACKAGES}
+      fi
     else
         PKG=$(show-package-name "${RECIPEDIR}")
-        mamba create -n "${CONDAENV_NAME}" -c local "${PKG}" pytest pytest-cov python="${PYTHON_VERSION}"
+        # shellcheck disable=SC2086
+        mamba create -n "${CONDAENV_NAME}" -c local "${PKG}" pytest pytest-cov python="${PYTHON_VERSION}" ${EXTRA_PACKAGES}
     fi
 
 }

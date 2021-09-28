@@ -29,7 +29,7 @@ parameters:
       Version for the python deploy package to use. See
       https://anaconda.org/psyplot/psyplot-ci-orb
     type: string
-    default: "1.5.14"
+    default: "1.5.15"
 steps:
   - run:
       environment:
