@@ -94,6 +94,7 @@ workflows:
       # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
       - mattermost-plugin-notify/approval-notification:
           message: Hello @all! A workflow on https://app.circleci.com/pipelines/github/psyplot/psyplot-ci-orb is awaiting your approval.
+          context: mattermost
           requires:
             - orb-tools/lint
             - orb-tools/pack
