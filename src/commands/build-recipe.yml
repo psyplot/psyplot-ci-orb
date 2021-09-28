@@ -16,6 +16,11 @@ parameters:
     description: Additional command line arguments for conda-build
     type: string
     default: ""
+  build_output:
+    description: The output directory for the build
+    type: enum
+    default: linux-64
+    enum: ["linux-64", "osx-64"]
 steps:
   - run:
       environment:
@@ -26,5 +31,5 @@ steps:
       name: Build recipe
       command: <<include(scripts/build-recipe.sh)>>
   - store_artifacts:
-      path: <<parameters.condadir>>/conda-bld/*/*.tar.bz2
+      path: <<parameters.condadir>>/conda-bld/<<parameters.build_output>>
       destination: conda-bld
