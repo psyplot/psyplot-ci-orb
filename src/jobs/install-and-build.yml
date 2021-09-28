@@ -95,6 +95,10 @@ parameters:
     description: Path to the conda environment file
     type: string
     default: ci/environment.yml
+  env_packages:
+    description: Extra packages to install
+    type: string
+    default: ""
   conda_env:
     description: Name of the conda environment
     type: string
@@ -138,6 +142,7 @@ steps:
             recipe_dir: <<parameters.recipe_dir>>
             environment_file: <<parameters.environment_file>>
             python_version: <<parameters.python_version>>
+            packages: <<parameters.env_packages>>
             conda_env: <<parameters.conda_env>>
   - when:
       condition: << parameters.build_docs >>
