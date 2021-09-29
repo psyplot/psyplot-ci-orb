@@ -40,8 +40,11 @@ DoIncrement() {
 
     if [ "$SEMVER_INCREMENT" == "major" ]; then
         VERSION_PARTS[0]=$((VERSION_PARTS[0]+1))
+        VERSION_PARTS[1]=0
+        VERSION_PARTS[2]=0
     elif [ "$SEMVER_INCREMENT" == "minor" ]; then
         VERSION_PARTS[1]=$((VERSION_PARTS[1]+1))
+        VERSION_PARTS[2]=0
     elif [ "$SEMVER_INCREMENT" == "patch" ]; then
         VERSION_PARTS[2]=$((VERSION_PARTS[2]+1))
     fi
