@@ -144,6 +144,7 @@ def main(parser_args=None):
         # add the label
         print("Package is already available on anaconda.")
         for label in args.label:
+            label = label.replace("/", "-")
             if label in dist["labels"]:
                 print(f"Package is already available under the {label} label.")
                 print("Nothing to do for me here.")
