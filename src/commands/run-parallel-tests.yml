@@ -42,3 +42,10 @@ steps:
       path: <<parameters.test_upload_dir>>
   - store_artifacts:
       path: <<parameters.test_upload_dir>>
+  - when:
+      condition: <<parameters.build_refs>>
+      steps:
+        - store_artifacts:
+            path: tests/reference_figures
+            destination: reference_figures
+
