@@ -26,6 +26,14 @@ parameters:
     description: Build reference figures
     type: boolean
     default: false
+  reference_figures:
+    description: Path to the reference figures
+    type: string
+    default: tests/reference_figures
+  test_figures:
+    description: Path to the test figures
+    type: string
+    default: tests/test_figures
 
 steps:
   - run:
@@ -46,6 +54,8 @@ steps:
       condition: <<parameters.build_refs>>
       steps:
         - store_artifacts:
-            path: tests/reference_figures
+            path: <<parameters.reference_figures>>
             destination: reference_figures
-
+        - store_artifacts:
+            path: <<parameters.reference_figures>>
+            destination: test_figures

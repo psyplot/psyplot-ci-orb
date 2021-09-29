@@ -48,6 +48,14 @@ parameters:
     description: Build reference figures
     type: boolean
     default: false
+  reference_figures:
+    description: Path to the reference figures
+    type: string
+    default: tests/reference_figures
+  test_figures:
+    description: Path to the test figures
+    type: string
+    default: tests/test_figures
   codecov:
     description: Upload test results to codecov.io
     type: boolean
@@ -72,6 +80,8 @@ steps:
       test_upload_dir: <<parameters.test_upload_dir>>
       pytest_args: <<parameters.pytest_args>>
       build_refs: <<parameters.build_refs>>
+      reference_figures: <<parameters.reference_figures>>
+      test_figures: <<parameters.test_figures>>
   - when:
       condition: <<parameters.codecov>>
       steps:
