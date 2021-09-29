@@ -17,5 +17,5 @@ steps:
       name: Create release on Github
       environment:
         TOKEN: << parameters.token >>
-        DRAFT: << parameters.draft >>
+        DRAFT: <<#parameters.draft>>true<</parameters.draft>><<^parameters.draft>>false<</parameters.draft>>
       command: <<include(scripts/create-release.sh)>>
