@@ -1,14 +1,9 @@
 description: "Test the dist for pypi via twine check"
 
-executor: <<parameters.exec_environment>>
+docker:
+  - image: circleci/python:3.8.12
 
 parameters:
-  exec_environment:
-    default: default
-    description: >-
-      Set a custom executor for your job testing environment. By defeault the
-      machine image will be used. Use "macos" for building on OS X.
-    type: executor
   condadir:
     description: "Install location for anaconda"
     type: string
@@ -38,10 +33,6 @@ parameters:
     description: Do a checkout
     type: boolean
     default: false
-  install_conda:
-    description: Install and configure miniconda
-    type: boolean
-    default: true
 
 steps:
   - when:
@@ -49,12 +40,11 @@ steps:
       steps:
         - attach_workspace:
             at: << parameters.workspace >>
+
   - when:
-      condition: << parameters.install_conda >>
+      condition: << parameters.checkout >>
       steps:
-        - install:
-            checkout: << parameters.checkout >>
-            install_opengl: false
+        - checkout
   - deploy-pypi:
       condadir: <<parameters.condadir>>
       pypi_user: << parameters.pypi_user >>
