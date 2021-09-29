@@ -38,6 +38,10 @@ parameters:
     description: Do a checkout
     type: boolean
     default: false
+  install_conda:
+    description: Install and configure miniconda
+    type: boolean
+    default: true
 
 steps:
   - when:
@@ -45,8 +49,12 @@ steps:
       steps:
         - attach_workspace:
             at: << parameters.workspace >>
-  - install:
-      checkout: << parameters.checkout >>
+  - when:
+      condition: << parameters.install_conda >>
+      steps:
+        - install:
+            checkout: << parameters.checkout >>
+            install_opengl: false
   - deploy-pypi:
       condadir: <<parameters.condadir>>
       pypi_user: << parameters.pypi_user >>
