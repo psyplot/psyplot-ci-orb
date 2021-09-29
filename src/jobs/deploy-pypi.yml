@@ -34,12 +34,19 @@ parameters:
     description: A workspace to attach. Attach none if empty.
     type: string
     default: "~"
+  checkout:
+    description: Do a checkout
+    type: boolean
+    default: false
+
 steps:
   - when:
       condition: << parameters.workspace >>
       steps:
         - attach_workspace:
             at: << parameters.workspace >>
+  - install:
+      checkout: << parameters.checkout >>
   - deploy-pypi:
       condadir: <<parameters.condadir>>
       pypi_user: << parameters.pypi_user >>
