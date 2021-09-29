@@ -108,7 +108,13 @@ parameters:
     type: enum
     default: linux-64
     enum: ["linux-64", "osx-64"]
+  run-job:
+    description: "Whether to run the job or stop it."
+    type: boolean
+    default: true
 steps:
+  - run-job:
+      run-job: <<parameters.run-job>>
   - install:
       checkout: <<parameters.checkout>>
       condadir: <<parameters.condadir>>

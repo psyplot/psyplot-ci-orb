@@ -21,7 +21,13 @@ parameters:
     default: CIRCLE_TOKEN
     description: >
       Name of environment variable containing your personal CircleCI API token
+  run-job:
+    description: "Whether to run the job or stop it."
+    type: boolean
+    default: true
 steps:
+  - run-job:
+      run-job: <<parameters.run-job>>
   - trigger-release-workflow:
       checkout: <<parameters.checkout>>
       pipeline-param-map: '<<parameters.pipeline-param-map>>'

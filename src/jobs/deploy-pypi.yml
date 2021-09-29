@@ -33,8 +33,13 @@ parameters:
     description: Do a checkout
     type: boolean
     default: false
-
+  run-job:
+    description: "Whether to run the job or stop it."
+    type: boolean
+    default: true
 steps:
+  - run-job:
+      run-job: <<parameters.run-job>>
   - when:
       condition: << parameters.workspace >>
       steps:

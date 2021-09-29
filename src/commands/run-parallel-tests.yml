@@ -57,5 +57,5 @@ steps:
             path: <<parameters.reference_figures>>
             destination: reference_figures
         - store_artifacts:
-            path: <<parameters.reference_figures>>
+            path: <<parameters.test_figures>>
             destination: test_figures

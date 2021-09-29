@@ -1,0 +1,13 @@
+description: "Command to run jobs conditionally"
+parameters:
+  run-job:
+    description: "Whether to run the job or stop it."
+    type: boolean
+    default: true
+steps:
+  - unless:
+      condition: <<parameters.run-job>>
+      steps:
+        - run:
+            name: Stop the job
+            command: circleci-agent step halt

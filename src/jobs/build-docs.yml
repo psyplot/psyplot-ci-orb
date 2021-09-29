@@ -34,7 +34,13 @@ parameters:
     description: A workspace to attach. Attach none if empty.
     type: string
     default: "~"
+  run-job:
+    description: "Whether to run the job or stop it."
+    type: boolean
+    default: true
 steps:
+  - run-job:
+      run-job: <<parameters.run-job>>
   - when:
       condition: << parameters.workspace >>
       steps:

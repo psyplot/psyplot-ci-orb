@@ -149,6 +149,9 @@ workflows:
           test_dir: src/tests/test-tests
           packages: docrep  # install an extra package
           parallelism: 2
+      - psyplot-ci-orb/test-parallel:
+          name: integration-test-parallel-stop
+          run-job: false
       - psyplot-ci-orb/deploy-docs:
           name: integration-test-docs
           requires:
@@ -175,6 +178,7 @@ workflows:
           ssh-fingerprints: 77:a2:25:de:77:ea:3e:46:97:3c:cd:f7:6c:88:42:12
           requires:
             - integration-test-parallel
+            - integration-test-parallel-stop
             - integration-test-configure
             - integration-test-docs
           filters:
