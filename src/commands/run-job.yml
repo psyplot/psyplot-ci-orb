@@ -5,7 +5,7 @@ parameters:
     type: boolean
     default: true
 steps:
-  - when:
+  - unless:
       condition: <<parameters.run-job>>
       steps:
         - run:
