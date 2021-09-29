@@ -148,6 +148,7 @@ workflows:
             - integration-test-install
           test_dir: src/tests/test-tests
           packages: docrep  # install an extra package
+          parallelism: 2
       - psyplot-ci-orb/deploy-docs:
           name: integration-test-docs
           requires:
