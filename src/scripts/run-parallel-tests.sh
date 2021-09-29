@@ -10,7 +10,7 @@ run-parallel-tests() {
     mkdir -p "${TESTUPLOADDIR}"
     pytest -h || pip install pytest pytest-cov
 
-    if [ "${BUILD_REFS}" ]; then
+    if [ "${BUILDREFS}" ]; then
         # shellcheck disable=SC2086
         pytest -xv --ref --junitxml="${TESTUPLOADDIR}"/junit.xml ${PYTEST_ARGS} ${TESTS}
     fi

@@ -45,8 +45,8 @@ This is the description"
     BASH_ENV="bash.sh" TAG_PREFIX="v" create-tag && \
     cat bash.sh && \
     source bash.sh && \
-    [ "${NEW_VERSION}" == "0.1.2" ] && \
-    [ "${NEW_TAG}" == "v0.1.2" ] && \
+    [ "${NEW_VERSION}" == "0.1.0" ] && \
+    [ "${NEW_TAG}" == "v0.1.0" ] && \
     [ "${RELEASE_TITLE}" == "Test minor" ] && \
     [ "${RELEASE_MESSAGE}" == "This is the description" ]
 
@@ -58,8 +58,8 @@ This is the description"
     BASH_ENV="bash.sh" TAG_PREFIX="v" create-tag && \
     cat bash.sh && \
     source bash.sh && \
-    [ "${NEW_VERSION}" == "1.1.2" ] && \
-    [ "${NEW_TAG}" == "v1.1.2" ] && \
+    [ "${NEW_VERSION}" == "1.0.0" ] && \
+    [ "${NEW_TAG}" == "v1.0.0" ] && \
     [ "${RELEASE_TITLE}" == "Test major" ] && \
     [ "${RELEASE_MESSAGE}" == "This is the description" ]
 }
