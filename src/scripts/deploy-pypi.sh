@@ -7,13 +7,20 @@ test-dist() {
 
     which twine || pip install twine
 
+    rm -r dist
+
     python setup.py sdist
     twine check dist/*.tar.gz
 
     [ "${PYPI_USER}" ] && export TWINE_USERNAME="${PYPI_USER}"
     [ "${PYPI_PASSWORD}" ] && export TWINE_PASSWORD="${PYPI_PASSWORD}"
 
-    twine upload --non-interactive -c "${RELEASE_TITLE}" dist/*.tar.gz
+
+    if [ "${DRYRUN}" ]; then
+        echo "twine upload --non-interactive -c \"${RELEASE_TITLE}\"" dist/*.tar.gz
+    else
+        twine upload --non-interactive -c "${RELEASE_TITLE}" dist/*.tar.gz
+    fi
 }
 
 # Will not run if sourced for bats-core tests.

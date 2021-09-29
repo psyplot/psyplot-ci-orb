@@ -25,6 +25,11 @@ parameters:
       TWINE_PASSWORD environment variable in a context.
     type: string
     default: ""
+  dry_run:
+    description: >-
+      Do not make an upload, only a dry run
+    type: boolean
+    default: false
   workspace:
     description: A workspace to attach. Attach none if empty.
     type: string
@@ -39,3 +44,5 @@ steps:
       condadir: <<parameters.condadir>>
       pypi_user: << parameters.pypi_user >>
       pypi_password: << parameters.pypi_password >>
+      dry_run: << parameters.dry_run >>
+

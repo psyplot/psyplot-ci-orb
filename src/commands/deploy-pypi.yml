@@ -16,11 +16,20 @@ parameters:
       TWINE_PASSWORD environment variable in a context.
     type: string
     default: ""
+  dry_run:
+    description: >-
+      Do not make an upload, only a dry run
+    type: boolean
+    default: false
 steps:
   - run:
       environment:
         CONDADIR: <<parameters.condadir>>
         PYPI_USER: << parameters.pypi_user >>
         PYPI_PASSWORD: << parameters.pypi_password >>
+        DRYRUN: <<#parameters.dry_run>>true<</parameters.dry_run>>
       name: Deploy the python package to pypi
       command: <<include(scripts/deploy-pypi.sh)>>
+  - store_artifacts:
+      path: dist
+      destination: dist
