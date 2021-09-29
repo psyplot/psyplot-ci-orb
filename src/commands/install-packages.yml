@@ -20,5 +20,5 @@ steps:
         CONDAENV_NAME: <<parameters.conda_env>>
         CONDADIR: <<parameters.condadir>>
         EXTRA_PACKAGES: <<parameters.packages>>
-      name: Run tests
+      name: Install extra packages
       command: <<include(scripts/install-packages.sh)>>
