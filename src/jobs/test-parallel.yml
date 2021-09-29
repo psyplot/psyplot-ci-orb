@@ -60,7 +60,13 @@ parameters:
     description: Upload test results to codecov.io
     type: boolean
     default: true
+  run-job:
+    description: "Whether to run the job or stop it."
+    type: boolean
+    default: true
 steps:
+  - run-job:
+      run-job: <<parameters.run-job>>
   - when:
       condition: << parameters.workspace >>
       steps:
