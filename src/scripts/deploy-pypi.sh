@@ -7,7 +7,9 @@ test-dist() {
 
     which twine || pip install twine
 
-    [ -d dist ] && rm -r dist || :
+    if [ -d dist ]; then
+        rm -r dist
+    fi
 
     python setup.py sdist
     twine check dist/*.tar.gz
