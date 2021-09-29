@@ -1,14 +1,9 @@
 description: "Test the dist for pypi via twine check"
 
-executor: <<parameters.exec_environment>>
+docker:
+  - image: circleci/python:3.8.12
 
 parameters:
-  exec_environment:
-    default: default
-    description: >-
-      Set a custom executor for your job testing environment. By defeault the
-      machine image will be used. Use "macos" for building on OS X.
-    type: executor
   condadir:
     description: "Install location for anaconda"
     type: string
@@ -25,17 +20,33 @@ parameters:
       TWINE_PASSWORD environment variable in a context.
     type: string
     default: ""
+  dry_run:
+    description: >-
+      Do not make an upload, only a dry run
+    type: boolean
+    default: false
   workspace:
     description: A workspace to attach. Attach none if empty.
     type: string
     default: "~"
+  checkout:
+    description: Do a checkout
+    type: boolean
+    default: false
+
 steps:
   - when:
       condition: << parameters.workspace >>
       steps:
         - attach_workspace:
             at: << parameters.workspace >>
+
+  - when:
+      condition: << parameters.checkout >>
+      steps:
+        - checkout
   - deploy-pypi:
       condadir: <<parameters.condadir>>
       pypi_user: << parameters.pypi_user >>
       pypi_password: << parameters.pypi_password >>
+      dry_run: << parameters.dry_run >>

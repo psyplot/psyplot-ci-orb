@@ -47,13 +47,25 @@ parameters:
       Override git user name.
     type: string
     default: ""
+  checkout:
+    description: >
+      Whether to perform the CircleCI checkout step.
+    type: boolean
+    default: true
 
 steps:
-  - when:
-      condition: << parameters.workspace >>
+  - unless:
+      condition: << parameters.checkout >>
       steps:
-        - attach_workspace:
-            at: << parameters.workspace >>
+        - when:
+            condition: << parameters.workspace >>
+            steps:
+              - attach_workspace:
+                  at: << parameters.workspace >>
+  - when:
+      condition: << parameters.checkout >>
+      steps:
+        - checkout
   - configure-git:
       user-name: << parameters.user-name >>
   - create-tag:
