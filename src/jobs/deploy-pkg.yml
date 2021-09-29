@@ -51,7 +51,7 @@ parameters:
     default: true
 steps:
   - run-job:
-      run-job: <<parameters.run-job>>s
+      run-job: <<parameters.run-job>>
   - when:
       condition: << parameters.workspace >>
       steps:
