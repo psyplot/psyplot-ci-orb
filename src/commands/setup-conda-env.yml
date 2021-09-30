@@ -39,3 +39,6 @@ steps:
         EXTRA_PACKAGES: <<parameters.packages>>
       name: Create conda environment
       command: <<include(scripts/setup-conda-env.sh)>>
+  - conda-list:
+      conda_env: <<parameters.conda_env>>
+      condadir: <<parameters.condadir>>
