@@ -36,6 +36,9 @@ parameters:
     default: tests/test_figures
 
 steps:
+  - conda-list:
+      conda_env: <<parameters.conda_env>>
+      condadir: <<parameters.condadir>>
   - run:
       environment:
         CONDAENV_NAME: <<parameters.conda_env>>
@@ -57,5 +60,5 @@ steps:
             path: <<parameters.reference_figures>>
             destination: reference_figures
         - store_artifacts:
-            path: <<parameters.test_figures>>
+            path: <<parameters.reference_figures>>
             destination: test_figures
