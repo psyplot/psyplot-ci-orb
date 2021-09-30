@@ -1,0 +1,20 @@
+description: >
+  List a conda environment
+
+parameters:
+  condadir:
+    description: "Install location for anaconda"
+    type: string
+    default: "~/miniconda3"
+  conda_env:
+    description: Name of the conda environment
+    type: string
+    default: test
+
+steps:
+  - run:
+      name: conda list -n <<parameters.conda_env>>
+      environment:
+        CONDAENV_NAME: <<parameters.conda_env>>
+        CONDADIR: <<parameters.condadir>>
+      command: <<include(scripts/conda-list.sh)>>
