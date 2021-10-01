@@ -38,6 +38,14 @@ parameters:
     description: "Whether to run the job or stop it."
     type: boolean
     default: true
+  doctrees_dir:
+    description: Directory where to store the doctrees
+    type: string
+    default: docs/_build/doctrees
+  test_dir:
+    description: Directory where to store the linkcheck results
+    type: string
+    default: docs/_build/linkcheck
 steps:
   - run-job:
       run-job: <<parameters.run-job>>
@@ -51,3 +59,5 @@ steps:
       conda_environment: <<parameters.conda_environment>>
       source: <<parameters.source>>
       build_dir: <<parameters.build_dir>>
+      doctrees_dir: <<parameters.doctrees_dir>>
+      test_dir: <<parameters.test_dir>>

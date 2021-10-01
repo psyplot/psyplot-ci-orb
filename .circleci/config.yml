@@ -152,6 +152,7 @@ workflows:
       - psyplot-ci-orb/test-parallel:
           name: integration-test-parallel-stop
           run-job: false
+          parallelism: 2
       - psyplot-ci-orb/deploy-docs:
           name: integration-test-docs
           requires:

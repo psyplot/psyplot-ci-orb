@@ -83,6 +83,14 @@ parameters:
     description: Build the documentation
     type: boolean
     default: true
+  doctrees_dir:
+    description: Directory where to store the doctrees
+    type: string
+    default: docs/_build/doctrees
+  test_dir:
+    description: Directory where to store the linkcheck results
+    type: string
+    default: docs/_build/linkcheck
   build_args:
     description: Additional command line arguments for conda-build
     type: string
@@ -158,6 +166,8 @@ steps:
             conda_environment: <<parameters.conda_environment>>
             source: <<parameters.source>>
             build_dir: <<parameters.build_dir>>
+            doctrees_dir: <<parameters.doctrees_dir>>
+            test_dir: <<parameters.test_dir>>
   - when:
       condition: << parameters.workspace >>
       steps:
