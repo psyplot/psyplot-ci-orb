@@ -20,6 +20,14 @@ parameters:
     description: Directory where to build the docs
     type: string
     default: docs/_build/html
+  doctrees_dir:
+    description: Directory where to store the doctrees
+    type: string
+    default: docs/_build/doctrees
+  test_dir:
+    description: Directory where to store the linkcheck results
+    type: string
+    default: docs/_build/linkcheck
 steps:
   - run:
       environment:
@@ -27,8 +35,16 @@ steps:
         CONDAENV: <<parameters.conda_environment>>
         SRC_DIR: <<parameters.source>>
         BUILD_DIR: <<parameters.build_dir>>
+        DOCTREES_DIR: <<parameters.doctrees_dir>>
+        TEST_DIR: <<parameters.test_dir>>
       name: Build documentation
       command: <<include(scripts/build-docs.sh)>>
   - store_artifacts:
       path: <<parameters.build_dir>>
       destination: docs
+  - when:
+      condition: <<parameters.test_dir>>
+      steps:
+        - store_artifacts:
+            path: <<parameters.test_dir>>
+            destination: doc-tests
