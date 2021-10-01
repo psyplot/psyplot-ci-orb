@@ -1,0 +1,42 @@
+description: "Build the docs with sphinx"
+parameters:
+  condadir:
+    description: "Install location for anaconda"
+    type: string
+    default: "~/miniconda3"
+  conda_environment:
+    description: >
+        Path to a conda environment file to install additional packages. Must
+        install sphinx, too.
+        If this is empty (or the default file does not exist), we will assume
+        that everything is installed alread in the base conda environment.
+    type: string
+    default: docs/environment.yml
+  source:
+    description: Directory with the sphinx source files (i.e. with conf.py).
+    type: string
+    default: docs
+  build_dir:
+    description: Directory where to build the docs
+    type: string
+    default: docs/_build/html
+  doctrees_dir:
+    description: Directory where to store the doctrees
+    type: string
+    default: docs/_build/doctrees
+  test_dir:
+    description: Directory where to store the linkcheck results
+    type: string
+    default: docs/_build/linkcheck
+steps:
+  - run:
+      environment:
+        CONDADIR: <<parameters.condadir>>
+        SRC_DIR: <<parameters.source>>
+        DOCTREES_DIR: <<parameters.doctrees_dir>>
+        TEST_DIR: <<parameters.test_dir>>
+      name: Test the documentation
+      command: <<include(scripts/test-docs.sh)>>
+  - store_artifacts:
+      path: <<parameters.test_dir>>
+      destination: doc-tests

@@ -15,7 +15,7 @@ build-docs() {
     sphinx-build -d "${DOCTREES_DIR}" . "${WORKDIR}/${BUILD_DIR}"
 
     # shellcheck disable=SC2086
-    [ "${TEST_DIR}" ] && sphinx-build -d "${DOCTREES_DIR}" . "${WORKDIR}/${TEST_DIR}"
+    [ "${TEST_DIR}" ] && sphinx-build -b linkcheck -d "${DOCTREES_DIR}" . "${WORKDIR}/${TEST_DIR}"
 
     cd "${WORKDIR}" || exit 1
 }
