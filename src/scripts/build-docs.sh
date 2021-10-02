@@ -13,6 +13,8 @@ build-docs() {
     done
 
     cd "${WORKDIR}" || exit 1
+
+    conda deactivate
 }
 
 # Will not run if sourced for bats-core tests.
