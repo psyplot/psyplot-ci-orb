@@ -22,7 +22,11 @@ setup() {
 
     export SRC_DIR=./src/tests/test-docs
     export BUILD_DIR=./src/tests/test-docs/_build/html
-    export CONDAENV=./src/tests/test-docs/environment.yml
+    export CONDAENV_FILE=./src/tests/test-docs/environment.yml
+    export CONDAENV_NAME="docs"
+
+    source ./src/scripts/setup-conda-env.sh
+    setup-conda-env
 
     source ./src/scripts/build-docs.sh
 }
@@ -37,4 +41,5 @@ setup() {
 
 teardown() {
     rm -rf ${BATS_TMPDIR}/test-feedstock
+    conda env remove -y -n docs
 }
