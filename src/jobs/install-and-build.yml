@@ -55,7 +55,7 @@ parameters:
     description: The full content for recipe_append.yml
     type: string
     default: ""
-  conda_environment:
+  docs_environment:
     description: >
         Path to a conda environment file to install additional packages. Must
         install sphinx, too.
@@ -70,7 +70,7 @@ parameters:
   build_dir:
     description: Directory where to build the docs
     type: string
-    default: docs/_build/html
+    default: docs/_build
   build_recipe:
     description: Build the conda recipe
     type: boolean
@@ -83,14 +83,6 @@ parameters:
     description: Build the documentation
     type: boolean
     default: true
-  doctrees_dir:
-    description: Directory where to store the doctrees
-    type: string
-    default: docs/_build/doctrees
-  test_dir:
-    description: Directory where to store the linkcheck results
-    type: string
-    default: docs/_build/linkcheck
   build_args:
     description: Additional command line arguments for conda-build
     type: string
@@ -108,9 +100,13 @@ parameters:
     type: string
     default: ""
   conda_env:
-    description: Name of the conda environment
+    description: Name of the conda environment for the tests
     type: string
     default: test
+  docs_conda_env:
+    description: Name of the conda environment for building the docs
+    type: string
+    default: docs
   build_output:
     description: The output directory for the build
     type: enum
@@ -120,6 +116,10 @@ parameters:
     description: "Whether to run the job or stop it."
     type: boolean
     default: true
+  builders:
+    description: Builders to use
+    type: string
+    default: html
 steps:
   - run-job:
       run-job: <<parameters.run-job>>
@@ -163,11 +163,11 @@ steps:
       steps:
         - build-docs:
             condadir: <<parameters.condadir>>
-            conda_environment: <<parameters.conda_environment>>
+            conda_env: <<parameters.docs_conda_env>>
+            environment_file: <<parameters.docs_environment>>
+            builders: <<parameters.builders>>
             source: <<parameters.source>>
             build_dir: <<parameters.build_dir>>
-            doctrees_dir: <<parameters.doctrees_dir>>
-            test_dir: <<parameters.test_dir>>
   - when:
       condition: << parameters.workspace >>
       steps:

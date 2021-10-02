@@ -2,20 +2,15 @@ build-docs() {
     CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
-    if [ "${CONDAENV}" != "" ]; then
-        if [ -f "${CONDAENV}" ]; then
-            mamba env create -n docs -f "${CONDAENV}"
-            conda activate docs
-        fi
-    fi
+    conda activate ${CONDAENV_NAME}
 
     WORKDIR="$(pwd)"
     cd "${SRC_DIR}" || exit 1
 
-    sphinx-build -d "${DOCTREES_DIR}" . "${WORKDIR}/${BUILD_DIR}"
-
     # shellcheck disable=SC2086
-    [ "${TEST_DIR}" ] && sphinx-build -b linkcheck -d "${DOCTREES_DIR}" . "${WORKDIR}/${TEST_DIR}"
+    for BUILDER in ${BUILDERS}; do
+        sphinx-build -b "${BUILDER}" -d "${WORKDIR}/${BUILD_DIR}/doctrees" . "${WORKDIR}/${BUILD_DIR}/${BUILDER}"
+    done
 
     cd "${WORKDIR}" || exit 1
 }
