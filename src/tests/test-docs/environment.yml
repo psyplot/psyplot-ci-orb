@@ -1,7 +1,4 @@
 name: docs
-channels:
-    - local
 dependencies:
     - python=3.8
-    - docrep
     - sphinx

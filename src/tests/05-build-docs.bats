@@ -12,21 +12,15 @@ setup() {
     source ./src/scripts/configure-conda.sh
     configure-conda  || return 1
 
-    git clone https://github.com/conda-forge/docrep-feedstock.git "${BATS_TMPDIR}"/test-feedstock
-
-    export RECIPEDIR="${BATS_TMPDIR}"/test-feedstock/recipe
-    export PYTHON_VERSION=3.8
-
-    source ./src/scripts/build-recipe.sh
-    build-recipe || return 1
-
-    export SRC_DIR=./src/tests/test-docs
-    export BUILD_DIR=./src/tests/test-docs/_build/html
     export CONDAENV_FILE=./src/tests/test-docs/environment.yml
-    export CONDAENV_NAME="docs"
+    export CONDAENV_NAME="test_docs_env"
 
     source ./src/scripts/setup-conda-env.sh
-    setup-conda-env
+    setup-conda-env || return 1
+
+    export SRC_DIR=./src/tests/test-docs
+    export BUILD_DIR=./src/tests/test-docs/_build
+    export BUILDERS="linkcheck html"
 
     source ./src/scripts/build-docs.sh
 }
@@ -35,11 +29,11 @@ setup() {
 
     build-docs && \
     [ -d ./src/tests/test-docs/_build/html ] && \
-    [ -f ./src/tests/test-docs/_build/html/index.html ] && \
-    [ "$(conda list -n docs | grep docrep | grep local)" != "" ]
+    [ -f ./src/tests/test-docs/_build/html/index.html ] &&
+    [ -f ./src/tests/test-docs/_build/linkcheck/output.txt ]
 }
 
 teardown() {
-    rm -rf ${BATS_TMPDIR}/test-feedstock
-    conda env remove -y -n docs
+    conda env remove -y -n test_docs_env
+    rm -rf ./src/tests/test-docs/_build
 }
