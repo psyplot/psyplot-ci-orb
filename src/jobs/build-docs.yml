@@ -14,7 +14,7 @@ parameters:
     description: "Install location for anaconda"
     type: string
     default: "~/miniconda3"
-  conda_environment:
+  environment_file:
     description: >
         Path to a conda environment file to install additional packages. Must
         install sphinx, too.
@@ -22,6 +22,14 @@ parameters:
         that everything is installed alread in the base conda environment.
     type: string
     default: docs/environment.yml
+  conda_env:
+    description: Name of the conda environment
+    type: string
+    default: docs
+  packages:
+    description: Extra packages to install
+    type: string
+    default: ""
   source:
     description: Directory with the sphinx source files (i.e. with conf.py).
     type: string
@@ -29,7 +37,11 @@ parameters:
   build_dir:
     description: Directory where to build the docs
     type: string
-    default: docs/_build/html
+    default: docs/_build
+  builders:
+    description: Builders to use
+    type: string
+    default: html linkcheck
   workspace:
     description: A workspace to attach. Attach none if empty.
     type: string
@@ -38,14 +50,6 @@ parameters:
     description: "Whether to run the job or stop it."
     type: boolean
     default: true
-  doctrees_dir:
-    description: Directory where to store the doctrees
-    type: string
-    default: docs/_build/doctrees
-  test_dir:
-    description: Directory where to store the linkcheck results
-    type: string
-    default: docs/_build/linkcheck
 steps:
   - run-job:
       run-job: <<parameters.run-job>>
@@ -56,8 +60,9 @@ steps:
             at: << parameters.workspace >>
   - build-docs:
       condadir: <<parameters.condadir>>
-      conda_environment: <<parameters.conda_environment>>
+      environment_file: <<parameters.environment_file>>
+      conda_env: <<parameters.conda_env>>
+      builders: <<parameters.builders>>
+      packages: <<parameters.packages>>
       source: <<parameters.source>>
       build_dir: <<parameters.build_dir>>
-      doctrees_dir: <<parameters.doctrees_dir>>
-      test_dir: <<parameters.test_dir>>
