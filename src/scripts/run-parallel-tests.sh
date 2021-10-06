@@ -4,7 +4,11 @@ run-parallel-tests() {
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
     conda activate "${CONDAENV_NAME}"
-    TESTS="$(circleci tests glob "${TESTDIR}/test_*.py" "${TESTDIR}/*/test_*.py" | circleci tests split --split-by=timings)"
+
+    WORKDIR="$(pwd)"
+
+    cd "${TESTDIR}" || exit 1
+    TESTS="$(circleci tests glob "test_*.py" "*/test_*.py" | circleci tests split --split-by=timings)"
     echo "Test files:"
     echo "${TESTS}"
     mkdir -p "${TESTUPLOADDIR}"
@@ -17,6 +21,8 @@ run-parallel-tests() {
 
     # shellcheck disable=SC2086
     pytest -xv --cov-append --junitxml="${TESTUPLOADDIR}"/junit.xml ${PYTEST_ARGS} ${TESTS}
+
+    cd "${WORKDIR}" || exit 1
 
     conda deactivate
 
