@@ -20,7 +20,7 @@ setup() {
     setup-conda-env
 
     export TESTDIR=./src/tests/test-tests
-    export TESTUPLOADDIR=${BATS_TMPDIR}/test_upload_dir
+    export TESTUPLOADDIR=test_upload_dir
 
     source ./src/scripts/run-parallel-tests.sh
 }
@@ -28,11 +28,11 @@ setup() {
 @test 'run parallel tests' {
 
     run-parallel-tests && \
-    [ -f "${TESTUPLOADDIR}/junit.xml" ]
+    [ -f "./src/tests/test-tests/test_upload_dir/junit.xml" ]
 }
 
 teardown() {
-    rm -rf ${BATS_TMPDIR}/test_upload_dir
+    rm -rf ./src/tests/test-tests/test_upload_dir
     rm -rf ${BATS_TMPDIR}/test-feedstock
     conda env remove -y -n test_env
 }
