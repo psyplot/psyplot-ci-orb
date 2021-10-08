@@ -61,8 +61,8 @@ DoIncrement() {
 
     echo "export NEW_VERSION=\"${NEW_VERSION}\"" >> "$BASH_ENV"
     echo "export NEW_TAG=\"${NEW_TAG}\"" >> "$BASH_ENV"
-    echo "export RELEASE_TITLE=\"${RELEASE_TITLE}\"" >> "$BASH_ENV"
-    echo "export RELEASE_MESSAGE=\"${RELEASE_MESSAGE}\"" >> "$BASH_ENV"
+    echo "export RELEASE_TITLE=${RELEASE_TITLE@Q}" >> "$BASH_ENV"
+    echo "export RELEASE_MESSAGE=${RELEASE_MESSAGE@Q}" >> "$BASH_ENV"
 
     echo "export PR_MESSAGE=\"BotComment: *Production* version of package available for use - \\\`${NEW_TAG}\\\`\"" >> "$BASH_ENV"
 }
