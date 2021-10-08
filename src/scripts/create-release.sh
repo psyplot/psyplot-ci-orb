@@ -1,13 +1,15 @@
 create-release() {
+    sudo apt-get update
+    sudo apt-get install jq
     [ "${TOKEN}" ] && GITHUB_TOKEN="${TOKEN}"
-    cat > release_body.json << EOF
-{
-    "tag_name": "${NEW_TAG}",
-    "name": "${NEW_TAG}: ${RELEASE_TITLE}",
-    "body": "${RELEASE_MESSAGE}",
-    "draft": ${DRAFT}
-}
-EOF
+    jq -n \
+      --arg tag "${NEW_TAG}" \
+      --arg name "${NEW_TAG}: ${RELEASE_TITLE}" \
+      --arg body "${RELEASE_MESSAGE}" \
+      "{tag_name: \$tag, name: \$name, body: \$body, draft: $DRAFT}" > release_body.json
+
+    cat release_body.json
+
     curl \
         -X POST \
         -H "Authorization: Token ${GITHUB_TOKEN}" \
