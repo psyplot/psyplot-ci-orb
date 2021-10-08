@@ -4,7 +4,7 @@ create-release() {
     [ "${TOKEN}" ] && GITHUB_TOKEN="${TOKEN}"
     jq -n \
       --arg tag "${NEW_TAG}" \
-      --arg name "${NEW_TAG}: ${RELEASE_TITLE}"
+      --arg name "${NEW_TAG}: ${RELEASE_TITLE}" \
       --arg body "${RELEASE_MESSAGE}" \
       "{tag_name: \$tag, name: \$name, body: \$body, draft: $DRAFT}" > release_body.json
 
