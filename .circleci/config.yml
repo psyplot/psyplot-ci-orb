@@ -91,10 +91,10 @@ workflows:
           dir: ./src/scripts
           exclude: SC2148,SC2001,SC2129
       # optional: Run BATS tests against your scripts
-      # - bats/run:
-      #     name: unit-tests
-      #     path: ./src/tests
-      #     exec_environment: << pipeline.parameters.unit-test-executor >>
+      - bats/run:
+          name: unit-tests
+          path: ./src/tests
+          exec_environment: << pipeline.parameters.unit-test-executor >>
       # If you accept building open source forks, protect your secrects behind a restricted context.
       # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
       # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
@@ -104,7 +104,7 @@ workflows:
           requires:
             - orb-tools/lint
             - orb-tools/pack
-            # - unit-tests
+            - unit-tests
             - shellcheck/check
       - hold-for-dev-publish:
           type: approval
