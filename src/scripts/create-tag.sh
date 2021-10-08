@@ -62,10 +62,8 @@ DoIncrement() {
     echo "export NEW_VERSION=\"${NEW_VERSION}\"" >> "$BASH_ENV"
     echo "export NEW_TAG=\"${NEW_TAG}\"" >> "$BASH_ENV"
     echo "export RELEASE_TITLE=\"${RELEASE_TITLE}\"" >> "$BASH_ENV"
-
-    # insert newline characters into variable
-    RELEASE_MESSAGE=$(echo "${RELEASE_MESSAGE}" | sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g')
     echo "export RELEASE_MESSAGE=\"${RELEASE_MESSAGE}\"" >> "$BASH_ENV"
+
     echo "export PR_MESSAGE=\"BotComment: *Production* version of package available for use - \\\`${NEW_TAG}\\\`\"" >> "$BASH_ENV"
 }
 
