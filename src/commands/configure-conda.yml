@@ -42,3 +42,8 @@ steps:
         ORB_VERSION: << parameters.orb_version >>
       name: Configure conda
       command: <<include(scripts/configure-conda.sh)>>
+  - run:
+      environment:
+        CONDADIR: <<parameters.condadir>>
+      name: conda info
+      command: <<include(scripts/conda-info.sh)>>
