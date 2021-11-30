@@ -17,7 +17,7 @@ parameters:
   default_branch:
     description: Default branch channel for conda
     type: string
-    default: master
+    default: develop
   channels:
     description: Further default channels for conda
     type: string
