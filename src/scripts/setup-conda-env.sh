@@ -8,6 +8,11 @@ setup-conda-env() {
     if [ "${MISSING}" ]; then
 
       if [[ "${CONDAENV_FILE}" != "" ]] && [[ -e "${CONDAENV_FILE}" ]]; then
+
+        if [ "${CIRCLE_TAG}" == "" ] && [ "${CIRCLE_BRANCH}" != "" ]; then
+            sed -i "s/__CURRENTBRANCH__/${CIRCLE_BRANCH}/" "${CONDAENV_FILE}"
+        fi
+
         mamba env create -n "${CONDAENV_NAME}" -f "${CONDAENV_FILE}"
         if [[ "${EXTRA_PACKAGES}" != "" ]]; then
           # shellcheck disable=SC2086
