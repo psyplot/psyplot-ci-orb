@@ -14,6 +14,10 @@ parameters:
     description: "Install location for anaconda"
     type: string
     default: "~/miniconda3"
+  build_pkg:
+    description: Build the package prior to deployment
+    type: boolean
+    default: false
   recipe_dir:
     description: Path to the recipe to build relative to the project directory
     type: string
@@ -57,6 +61,14 @@ steps:
       steps:
         - attach_workspace:
             at: << parameters.workspace >>
+  - when:
+      condition: << parameters.build_pkg >>
+      steps:
+        - build-recipe:
+            condadir: << parameters.condadir >>
+            recipe_dir: << parameters.recipe_dir >>
+            python_version: << parameters.python_version >>
+            build_args: "--no-test"
   - deploy-pkg:
       condadir: << parameters.condadir >>
       recipe_dir: << parameters.recipe_dir >>
