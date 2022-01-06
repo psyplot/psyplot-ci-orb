@@ -18,10 +18,18 @@ parameters:
     description: Build the package prior to deployment
     type: boolean
     default: false
+  install:
+    description: Install conda prior to deployment
+    type: boolean
+    default: false
   recipe_dir:
     description: Path to the recipe to build relative to the project directory
     type: string
     default: ci/conda-recipe
+  recipe_append:
+    description: The full content for recipe_append.yml
+    type: string
+    default: ""
   python_version:
     description: Python version
     type: string
@@ -49,6 +57,14 @@ parameters:
     description: A workspace to attach. Attach none if empty.
     type: string
     default: "~"
+  channels:
+    description: Further default channels for conda
+    type: string
+    default: conda-forge
+  checkout:
+    description: Do a checkout
+    type: boolean
+    default: false
   run-job:
     description: "Whether to run the job or stop it."
     type: boolean
@@ -62,8 +78,23 @@ steps:
         - attach_workspace:
             at: << parameters.workspace >>
   - when:
+      condition: << parameters.checkout >>
+      steps:
+        - checkout
+  - when:
+      condition: << parameters.install >>
+      steps:
+          - install:
+              condadir: <<parameters.condadir>>
+              main_channel: ""
+              channels: <<parameters.channels>>
+              packages: conda-build anaconda-client conda-verify
+  - when:
       condition: << parameters.build_pkg >>
       steps:
+        - configure-recipe:
+            recipe_dir: <<parameters.recipe_dir>>
+            recipe_append: <<parameters.recipe_append>>
         - build-recipe:
             condadir: << parameters.condadir >>
             recipe_dir: << parameters.recipe_dir >>
