@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # configure the git user
 #
 # This command has been taken from the official orb-tools-orb at

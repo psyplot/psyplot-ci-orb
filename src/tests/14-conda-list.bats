@@ -2,8 +2,8 @@
 setup() {
 
     export CONDADIR=${BATS_TMPDIR}/miniconda-test
-    source ./src/scripts/install-conda.sh
     if [ ! -d "${CONDADIR}" ]; then
+        source ./src/scripts/install-conda.sh
         install-conda
     fi
 
@@ -21,5 +21,7 @@ setup() {
 }
 
 teardown() {
+    export CONDADIR=${BATS_TMPDIR}/miniconda-test
+    which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
     conda env remove -y -n test_env
 }

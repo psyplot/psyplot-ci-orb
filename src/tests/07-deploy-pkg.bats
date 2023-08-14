@@ -7,7 +7,7 @@ setup() {
         install-conda
     fi
 
-    export PACKAGES=conda-build
+    export PACKAGES='conda-build=3.25.* conda-verify'
     source ./src/scripts/configure-conda.sh
     configure-conda
 
@@ -16,6 +16,7 @@ setup() {
     export CONDADIR=${BATS_TMPDIR}/miniconda-test
     export RECIPEDIR=${BATS_TMPDIR}/test-feedstock/recipe
     export PYTHON_VERSION=3.8
+    export BUILD_TOOL=conda
 
     source ./src/scripts/build-recipe.sh
     build-recipe

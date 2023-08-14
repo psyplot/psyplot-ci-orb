@@ -29,5 +29,5 @@ setup() {
 }
 
 teardown() {
-    rm ~/.condarc
+    rm -rf ~/.condarc
 }
