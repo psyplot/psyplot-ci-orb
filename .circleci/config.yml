@@ -3,7 +3,7 @@ setup: true
 orbs:
   orb-tools: circleci/orb-tools@12.0.4
   shellcheck: circleci/shellcheck@3.1
-  bats: circleci/bats@1.0
+  bats: circleci/bats@1.1.0
   mattermost-plugin-notify: nathanaelhoun/mattermost-plugin-notify@1.2.0
 
 filters: &filters
@@ -44,7 +44,7 @@ workflows:
           filters: *filters
       - bats/run:
           name: unit-tests
-          path: ./src/tests
+          path: "./src/tests/*.bats"
           exec_environment: << pipeline.parameters.unit-test-executor >>
       # If you accept building open source forks, protect your secrects behind a restricted context.
       # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.

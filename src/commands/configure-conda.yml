@@ -23,7 +23,8 @@ parameters:
   packages:
     description: Extra packages to install into the base environment
     type: string
-    default: conda-build anaconda-client conda-verify
+    # we use conda-build=3.25.* as 3.26.0 fails for unknown reasons
+    default: "conda-build=3.25.* anaconda-client conda-verify"
   orb_version:
     description: >
       Version for the python deploy package to use. See

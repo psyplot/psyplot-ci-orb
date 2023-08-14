@@ -7,7 +7,8 @@ setup() {
         install-conda
     fi
 
-    export PACKAGES=conda-build
+    # we use conda-build=3.25.* as 3.26.0 fails for unknown reasons
+    export PACKAGES='conda-build=3.25.* conda-verify'
     source ./src/scripts/configure-conda.sh
     configure-conda
 
