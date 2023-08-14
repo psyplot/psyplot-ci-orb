@@ -83,6 +83,10 @@ parameters:
     description: Build the documentation
     type: boolean
     default: true
+  build_tool:
+    description: The build tool to use (default mamba)
+    type: string
+    default: mamba
   build_args:
     description: Additional command line arguments for conda-build
     type: string
@@ -148,6 +152,7 @@ steps:
             python_version: <<parameters.python_version>>
             build_args: <<parameters.build_args>>
             build_output: <<parameters.build_output>>
+            build_tool: << parameters.build_tool >>
   - when:
       condition: << parameters.setup_env >>
       steps:

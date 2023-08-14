@@ -3,7 +3,7 @@ build-recipe() {
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
     # shellcheck disable=SC2086
-    mamba build "${RECIPEDIR}" --python "${PYTHON_VERSION}" ${EXTRA_ARGS}
+    ${BUILD_TOOL} build "${RECIPEDIR}" --python "${PYTHON_VERSION}" ${EXTRA_ARGS}
 }
 
 # Will not run if sourced for bats-core tests.

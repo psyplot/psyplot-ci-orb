@@ -12,6 +12,10 @@ parameters:
     description: Python version
     type: string
     default: "3.8"
+  build_tool:
+    description: The build tool to use (default mamba)
+    type: string
+    default: mamba
   build_args:
     description: Additional command line arguments for conda-build
     type: string
@@ -28,6 +32,7 @@ steps:
         RECIPEDIR: <<parameters.recipe_dir>>
         PYTHON_VERSION: <<parameters.python_version>>
         EXTRA_ARGS: <<parameters.build_args>>
+        BUILD_TOOL: <<parameters.build_tool>>
       name: Build recipe
       command: <<include(scripts/build-recipe.sh)>>
   - store_artifacts:
