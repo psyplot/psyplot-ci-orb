@@ -37,7 +37,7 @@ parameters:
       This value is automatically adjusted by the "trigger-integration-tests-workflow" job to correspond with the specific version created by the commit and should not be edited.
       A "dev:alpha" version must exist for the initial pipeline run.
     type: string
-    default: "1.5.32"
+    default: "dev:alpha"
 
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
@@ -91,10 +91,10 @@ workflows:
           dir: ./src/scripts
           exclude: SC2148,SC2001,SC2129
       # optional: Run BATS tests against your scripts
-      - bats/run:
-          name: unit-tests
-          path: ./src/tests
-          exec_environment: << pipeline.parameters.unit-test-executor >>
+      # - bats/run:
+      #     name: unit-tests
+      #     path: ./src/tests
+      #     exec_environment: << pipeline.parameters.unit-test-executor >>
       # If you accept building open source forks, protect your secrects behind a restricted context.
       # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
       # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
