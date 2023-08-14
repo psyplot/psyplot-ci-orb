@@ -68,6 +68,6 @@ workflows:
       - orb-tools/continue:
           pipeline_number: << pipeline.number >>
           vcs_type: << pipeline.project.type >>
-          orb_name: <orb-name>
+          orb_name: psyplot-ci-orb
           requires: [hold-for-dev-publish]
           filters: *filters
