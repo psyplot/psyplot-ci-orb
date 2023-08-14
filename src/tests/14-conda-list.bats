@@ -21,5 +21,7 @@ setup() {
 }
 
 teardown() {
+    export CONDADIR=${BATS_TMPDIR}/miniconda-test
+    which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
     conda env remove -y -n test_env
 }
