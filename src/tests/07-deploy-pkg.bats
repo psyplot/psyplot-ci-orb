@@ -16,6 +16,7 @@ setup() {
     export CONDADIR=${BATS_TMPDIR}/miniconda-test
     export RECIPEDIR=${BATS_TMPDIR}/test-feedstock/recipe
     export PYTHON_VERSION=3.8
+    export BUILD_TOOL=conda
 
     source ./src/scripts/build-recipe.sh
     build-recipe

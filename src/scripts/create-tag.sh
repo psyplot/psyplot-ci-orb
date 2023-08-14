@@ -1,3 +1,4 @@
+#!/bin/bash
 
 GetIncrement() {
     COMMIT_SUBJECT=$(git log -1 --pretty=%s)
@@ -51,6 +52,7 @@ DoIncrement() {
     NEW_VERSION=$(JoinVersion "${VERSION_PARTS[@]}")
     NEW_TAG="${TAG_PREFIX}${NEW_VERSION}"
 
+    # shellcheck disable=SC2001
     RELEASE_TITLE="$(echo "${COMMIT_SUBJECT}" | sed 's/\s*\[semver:.*\]\s*//')"
     echo "${CLEAN_MESSAGE}"
 
@@ -59,6 +61,7 @@ DoIncrement() {
       -m "${RELEASE_TITLE}" \
       -m "${RELEASE_MESSAGE}"
 
+    # shellcheck disable=SC2129
     echo "export NEW_VERSION=\"${NEW_VERSION}\"" >> "$BASH_ENV"
     echo "export NEW_TAG=\"${NEW_TAG}\"" >> "$BASH_ENV"
     echo "export RELEASE_TITLE=$(printf '%q' "${RELEASE_TITLE}")" >> "$BASH_ENV"
@@ -76,7 +79,7 @@ create-tag() {
 
 # Will not run if sourced for bats-core tests.
 # View src/tests for more information.
-ORB_TEST_ENV="bats-core"
-if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
+ORB_TEST_ENV="bats-"
+if [ "${0#*"$ORB_TEST_ENV"}" = "$0" ]; then
     create-tag
 fi

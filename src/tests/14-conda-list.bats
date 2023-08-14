@@ -2,8 +2,8 @@
 setup() {
 
     export CONDADIR=${BATS_TMPDIR}/miniconda-test
-    source ./src/scripts/install-conda.sh
     if [ ! -d "${CONDADIR}" ]; then
+        source ./src/scripts/install-conda.sh
         install-conda
     fi
 

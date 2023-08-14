@@ -1,3 +1,5 @@
+#!/bin/bash
+
 create-release() {
     sudo apt-get update
     sudo apt-get install jq
@@ -21,7 +23,7 @@ create-release() {
 
 # Will not run if sourced for bats-core tests.
 # View src/tests for more information.
-ORB_TEST_ENV="bats-core"
-if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
+ORB_TEST_ENV="bats-"
+if [ "${0#*"$ORB_TEST_ENV"}" = "$0" ]; then
     create-release
 fi
