@@ -12,7 +12,8 @@ filters: &filters
 
 executors:
   default:
-    machine: true
+    docker:
+      - image: cimg/base:stable
   macos-executor:
     macos:
       xcode: 12.2.0
@@ -44,7 +45,7 @@ workflows:
           filters: *filters
       - bats/run:
           name: unit-tests
-          path: "./src/tests/*.bats"
+          path: ./src/tests
           exec_environment: << pipeline.parameters.unit-test-executor >>
       # If you accept building open source forks, protect your secrects behind a restricted context.
       # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
