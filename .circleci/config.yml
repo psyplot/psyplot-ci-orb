@@ -19,17 +19,11 @@ executors:
       xcode: 12.2.0
 
 # Pipeline Parameters
-## These parameters are used internally by orb-tools. Skip to the Jobs section.
 parameters:
   unit-test-executor:
     description: Executor for the unit tests. Can be default or macos-executor
     type: string
     default: default
-  build_output:
-    description: The output directory for the build
-    type: enum
-    default: linux-64
-    enum: ["linux-64", "osx-64"]
 
 workflows:
   lint-pack:
@@ -68,6 +62,6 @@ workflows:
       - orb-tools/continue:
           pipeline_number: << pipeline.number >>
           vcs_type: << pipeline.project.type >>
-          orb_name: <orb-name>
+          orb_name: psyplot-ci-orb
           requires: [hold-for-dev-publish]
           filters: *filters
