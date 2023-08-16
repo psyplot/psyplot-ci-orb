@@ -112,7 +112,7 @@ workflows:
           filters: *release-filters
       - orb-tools/publish:
           name: publish-orb
-          orb_name: <namespace>/<orb-name>
+          orb_name: psyplot/psyplot-ci-orb
           vcs_type: << pipeline.project.type >>
           pub_type: production
           # Ensure this job requires all test jobs and the pack job.
