@@ -1,3 +1,5 @@
+#!/bin/bash
+
 test-dist() {
     CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
@@ -10,7 +12,7 @@ test-dist() {
 
 # Will not run if sourced for bats-core tests.
 # View src/tests for more information.
-ORB_TEST_ENV="bats-core"
-if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
+ORB_TEST_ENV="bats-"
+if [ "${0#*"$ORB_TEST_ENV"}" = "$0" ]; then
     test-dist
 fi

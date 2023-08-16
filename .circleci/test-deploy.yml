@@ -1,0 +1,137 @@
+version: 2.1
+orbs:
+  # Your orb will be automatically injected here during the pipeline.
+  # Reference your orb's jobs and commands below as they will exist when built.
+  orb-tools: circleci/orb-tools@12.0
+  # The orb definition is intentionally not included here. It will be injected into the pipeline.
+  psyplot-ci-orb: {}
+# Use this tag to ensure test jobs always run,
+# even though the downstream publish job will only run on release tags.
+filters: &filters
+  tags:
+    only: /.*/
+# Filter for release tags.
+release-filters: &release-filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+
+
+# Pipeline Parameters
+parameters:
+  build_output:
+    description: The output directory for the build
+    type: enum
+    default: linux-64
+    enum: ["linux-64", "osx-64"]
+
+jobs:
+  # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
+  integration-test-configure:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - attach_workspace:
+          at: "~"
+      - psyplot-ci-orb/configure-conda
+      - psyplot-ci-orb/install-opengl
+  deploy-python:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          command: git fetch --tags origin
+      - psyplot-ci-orb/install-conda
+      - psyplot-ci-orb/configure-conda
+      - run:
+          name: Build python package
+          command: |
+            which conda || eval "$("${HOME}"/miniconda3/bin/conda shell.bash hook)"
+            pip install .
+            python setup.py sdist
+      - run:
+          name: Check python tag
+          command: |
+            which conda || eval "$("${HOME}"/miniconda3/bin/conda shell.bash hook)"
+            VERSION=`deploy-conda-recipe -V`
+            TAG=`git describe`
+            if [ "${TAG:1}" == "${VERSION}" ]; then
+              # make sure the version is in the deploy-pkg.yml and configure-conda.yml
+              [ "$(grep ${VERSION} src/commands/deploy-pkg.yml)" != "" ]
+              [ "$(grep ${VERSION} src/commands/configure-conda.yml)" != "" ]
+            fi
+      - run:
+          name: deploy python package
+          command: |-
+            which conda || eval "$("${HOME}"/miniconda3/bin/conda shell.bash hook)"
+            anaconda upload dist/psyplot-ci-orb*.tar.gz
+workflows:
+  test-deploy:
+    jobs:
+      # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
+      # Test your orb's commands in a custom job and test your orb's jobs directly as a part of this workflow.
+      - psyplot-ci-orb/install-and-build:
+          name: integration-test-install
+          filters: *filters
+          build_recipe: false
+          source: src/tests/test-docs
+          # temporary disable building of docs
+          docs_environment: src/tests/test-docs/environment.yml
+          environment_file: src/tests/test-tests/environment.yml
+          build_dir: src/tests/test-docs/_build
+          build_output: <<pipeline.parameters.build_output>>
+      - integration-test-configure:
+          filters: *filters
+          requires:
+            - integration-test-install
+      - psyplot-ci-orb/test-parallel:
+          name: integration-test-parallel
+          filters: *filters
+          requires:
+            - integration-test-install
+          test_dir: src/tests/test-tests
+          packages: docrep  # install an extra package
+          parallelism: 2
+      - psyplot-ci-orb/test-parallel:
+          name: integration-test-parallel-stop
+          filters: *filters
+          run-job: false
+          parallelism: 2
+      - psyplot-ci-orb/deploy-docs:
+          name: integration-test-docs
+          filters: *filters
+          requires:
+            - integration-test-install
+          deploy_dir: src/tests/test-docs/_build/html
+          dry_run: true
+          fingerprint: ""
+      # The orb must be re-packed for publishing, and saved to the workspace.
+      - orb-tools/pack:
+          filters: *release-filters
+      - orb-tools/publish:
+          name: publish-orb
+          orb_name: <namespace>/<orb-name>
+          vcs_type: << pipeline.project.type >>
+          pub_type: production
+          # Ensure this job requires all test jobs and the pack job.
+          requires:
+            - orb-tools/pack
+            - integration-test-parallel
+            - integration-test-parallel-stop
+            - integration-test-configure
+            - integration-test-docs
+          context: orb-publishing
+          filters: *release-filters
+      - deploy-python:
+          context: anaconda
+          requires:
+            - publish-orb
+executors:
+  default:
+    docker:
+      - image: cimg/base:stable
+  macos-executor:
+    macos:
+      xcode: 12.2.0

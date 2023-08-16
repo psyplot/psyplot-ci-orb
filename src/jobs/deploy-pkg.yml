@@ -18,6 +18,10 @@ parameters:
     description: Build the package prior to deployment
     type: boolean
     default: false
+  build_tool:
+    description: The build tool to use (default mamba)
+    type: string
+    default: mamba
   install:
     description: Install conda prior to deployment
     type: boolean
@@ -100,6 +104,7 @@ steps:
             recipe_dir: << parameters.recipe_dir >>
             python_version: << parameters.python_version >>
             build_args: "--no-test"
+            build_tool: << parameters.build_tool >>
   - deploy-pkg:
       condadir: << parameters.condadir >>
       recipe_dir: << parameters.recipe_dir >>

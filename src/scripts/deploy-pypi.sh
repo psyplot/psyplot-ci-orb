@@ -1,8 +1,11 @@
+#!/bin/bash
+
 test-dist() {
     CONDADIR=$(eval echo "$CONDADIR")
     which conda || eval "$("${CONDADIR}"/bin/conda shell.bash hook)"
 
     COMMIT_SUBJECT=$(git log -1 --pretty=%s)
+    # shellcheck disable=SC2001
     RELEASE_TITLE="$(echo "${COMMIT_SUBJECT}" | sed 's/\s*\[semver:.*\]\s*//')"
 
     which twine || pip install twine
@@ -27,7 +30,7 @@ test-dist() {
 
 # Will not run if sourced for bats-core tests.
 # View src/tests for more information.
-ORB_TEST_ENV="bats-core"
-if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
+ORB_TEST_ENV="bats-"
+if [ "${0#*"$ORB_TEST_ENV"}" = "$0" ]; then
     test-dist
 fi
