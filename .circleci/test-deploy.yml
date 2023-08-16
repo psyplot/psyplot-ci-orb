@@ -125,6 +125,7 @@ workflows:
           context: orb-publishing
           filters: *release-filters
       - deploy-python:
+          filters: *filters
           context: anaconda
           requires:
             - publish-orb

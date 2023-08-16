@@ -38,6 +38,7 @@ workflows:
       - shellcheck/check:
           filters: *filters
       - bats/run:
+          filters: *filters
           name: unit-tests
           path: ./src/tests
           exec_environment: << pipeline.parameters.unit-test-executor >>
@@ -45,6 +46,7 @@ workflows:
       # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
       # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
       - mattermost-plugin-notify/approval-notification:
+          filters: *filters
           message: Hello @all! A workflow on https://app.circleci.com/pipelines/github/psyplot/psyplot-ci-orb is awaiting your approval.
           context: mattermost
           requires:
@@ -54,6 +56,7 @@ workflows:
             - unit-tests
             - shellcheck/check
       - hold-for-dev-publish:
+          filters: *filters
           type: approval
           requires:
             - mattermost-plugin-notify/approval-notification
